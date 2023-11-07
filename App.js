@@ -3,7 +3,8 @@ import NavigationService from './services/navigation_service/navigation_service'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as NavigationBar from 'expo-navigation-bar';
-import Loading from './components/Loading';
+import {Colors} from "./constants/colors";
+import Loading from "./components/loading/Loading";
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ export default function App() {
   useEffect(() => {
     const hideSplashScreen = async () => {
       try {
-        NavigationBar.setBackgroundColorAsync("red");
+        await NavigationBar.setBackgroundColorAsync(Colors.backgroundColor);
         await SplashScreen.hideAsync();
       } catch (e) {
         console.warn(e);
@@ -26,7 +27,7 @@ export default function App() {
     };
 
     if (fontsLoaded) {
-      hideSplashScreen()
+      hideSplashScreen().then(() => null);
     }
   }, [fontsLoaded]);
 

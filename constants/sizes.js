@@ -15,7 +15,7 @@ const Sizes = {
     body1: 12,
     body2: 10,
     caption: 12,
-    button: 14,
+    button: 15,
     overline: 10,
 
 

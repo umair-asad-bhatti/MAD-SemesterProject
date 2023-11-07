@@ -15,15 +15,15 @@ import {Sizes} from "../../constants/sizes";
 import {TypeScale} from "../../constants/type_scale";
 import {ImageStrings} from "../../constants/image_strings";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {CustomStyles} from "../../constants/custom_styles";
 
-const navigation = createNativeStackNavigator();
+createNativeStackNavigator();
 
 const SignUpScreen = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     const handleSignUp = () => {
         console.log('Signing Up with', {username, email, password, confirmPassword});
@@ -32,9 +32,6 @@ const SignUpScreen = ({navigation}) => {
 
     const goToLoginScreen = () => {
         navigation.replace("Login");
-    };
-    const toggleSecureEntry = () => {
-        setSecureTextEntry(!secureTextEntry);
     };
 
     return (
@@ -96,45 +93,21 @@ const SignUpScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    scrollViewContainer: {
-        flexGrow: 1,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: Sizes.screenPadding,
-        backgroundColor: Colors.backgroundColor,
-    },
+    scrollViewContainer: CustomStyles.screenScrollContainerStyle,
+    container: CustomStyles.screenContainerStyle,
+    title: CustomStyles.title,
+    subtitle: CustomStyles.subtitle,
     image: {
         height: Dimensions.get('window').width * 0.45,
         width: Dimensions.get('window').width * 0.45,
     },
-    title: {
-        ...TypeScale.h1Headline,
-        marginBottom: Sizes.formHeight * 0.4,
-    },
-    subtitle: {
-        ...TypeScale.h4Headline,
-        marginBottom: Sizes.formHeight,
-    },
     input: {
-        ...TypeScale.subtitle1,
+        ...CustomStyles.input,
         width: '100%',
-        height: Sizes.buttonHeight,
-        borderWidth: 1,
-        borderRadius: Sizes.textFormFieldRadius,
-        borderColor: Colors.lightColor,
-        marginBottom: Sizes.formHeight,
-        padding: Sizes.textFormFieldPadding,
     },
     button: {
-        height: Sizes.buttonHeight,
+        ...CustomStyles.button,
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.accentColor,
-        borderRadius: Sizes.buttonRadius,
     },
     footerText: {
         ...TypeScale.subtitle2,
