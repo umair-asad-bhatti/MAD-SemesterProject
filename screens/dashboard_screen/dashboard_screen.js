@@ -1,4 +1,5 @@
 import React from 'react';
+import { Colors } from '../../constants/colors';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,10 +11,10 @@ const DashboardScreen = () => {
         <View style={styles.container}>
             <StatusBar backgroundColor="#f2f2f2" barStyle="dark-content" />
             <Tab.Navigator
-
+                style={{height:200}}
                 screenOptions={({ route }) => ({
 
-                    "tabBarActiveTintColor": "blue",
+                    "tabBarActiveTintColor": Colors.primaryColor,
                     "tabBarInactiveTintColor": "black",
                     "tabBarShowLabel": true,
                     "tabBarShowIcon": true,
@@ -32,17 +33,18 @@ const DashboardScreen = () => {
                     tabBarLabel: ({ focused, color }) => {
                         let labelName;
                         if (route.name === 'overview') {
-                            labelName = focused ? 'Overview' : 'Overview';
+                            labelName = 'Overview';
                         } else if (route.name === 'Settings') {
-                            labelName = focused ? 'Settings' : 'Settings';
+                            labelName = 'Settings';
                         }
                         return <Text style={{ color: color }}>{labelName}</Text>;
                     },
                 })}
 
             >
-                <Tab.Screen name="overview" component={OverviewScreen} />
                 <Tab.Screen name="Settings" component={SettingsScreen} />
+                <Tab.Screen name="overview" component={OverviewScreen} />
+
             </Tab.Navigator>
         </View>
     );
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    
+
 });
 
 export default DashboardScreen;

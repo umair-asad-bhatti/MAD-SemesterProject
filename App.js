@@ -3,6 +3,7 @@ import NavigationService from './services/navigation_service/navigation_service'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as NavigationBar from 'expo-navigation-bar';
+import Loading from './components/Loading';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -25,13 +26,12 @@ export default function App() {
     };
 
     if (fontsLoaded) {
-      hideSplashScreen().then(() => null);
+      hideSplashScreen()
     }
-
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null; // or render a custom loading screen
+    return <Loading />; // or render a custom loading screen
   }
   return (
     <NavigationService />
