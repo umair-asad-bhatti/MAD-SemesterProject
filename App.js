@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import React, { useEffect } from 'react';
+import NavigationService from './services/navigation_service/navigation_service';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import * as NavigationBar from 'expo-navigation-bar';
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    'eczar-regular': require('./assets/fonts/Eczar-Regular.ttf'),
+    'eczar-bold': require('./assets/fonts/Eczar-Bold.ttf'),
+    'roboto-condensed-light': require('./assets/fonts/RobotoCondensed-Light.ttf'),
+    'roboto-condensed-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
+    'roboto-condensed-medium': require('./assets/fonts/RobotoCondensed-Medium.ttf'),
+    'roboto-condensed-bold': require('./assets/fonts/RobotoCondensed-Bold.ttf'),
+  });
+
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      try {
+        NavigationBar.setBackgroundColorAsync("red");
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+
+    if (fontsLoaded) {
+      hideSplashScreen().then(() => null);
+    }
+
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null; // or render a custom loading screen
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationService />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
