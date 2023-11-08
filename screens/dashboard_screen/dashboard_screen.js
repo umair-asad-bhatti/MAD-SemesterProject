@@ -11,7 +11,6 @@ const DashboardScreen = () => {
         <View style={styles.container}>
             <StatusBar backgroundColor="#f2f2f2" barStyle="dark-content" />
             <Tab.Navigator
-                style={{height:200}}
                 screenOptions={({ route }) => ({
 
                     "tabBarActiveTintColor": Colors.primaryColor,
@@ -19,7 +18,7 @@ const DashboardScreen = () => {
                     "tabBarShowLabel": true,
                     "tabBarShowIcon": true,
                     "tabBarStyle": {
-                        "backgroundColor": "#f2f2f2"
+                        "backgroundColor": Colors.lightColor
                     },
                     tabBarIcon: ({ color, focused }) => {
                         let iconName;
@@ -39,12 +38,9 @@ const DashboardScreen = () => {
                         }
                         return <Text style={{ color: color }}>{labelName}</Text>;
                     },
-                })}
-
-            >
+                })}>
                 <Tab.Screen name="Settings" component={SettingsScreen} />
                 <Tab.Screen name="overview" component={OverviewScreen} />
-
             </Tab.Navigator>
         </View>
     );
@@ -54,6 +50,7 @@ const DashboardScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
+
         flex: 1,
         backgroundColor: '#fff',
     },

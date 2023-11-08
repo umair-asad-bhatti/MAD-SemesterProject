@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function SettingsScreen() {
     return (
-        <View>
+        <View style={{flex:1,backgroundColor:'red'}}>
             <Text>settings_screen</Text>
         </View>
     )
