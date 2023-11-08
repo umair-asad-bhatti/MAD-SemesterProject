@@ -16,26 +16,25 @@ import {Sizes} from "../../constants/sizes";
 import {TypeScale} from "../../constants/type_scale";
 import {ImageStrings} from "../../constants/image_strings";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {CustomStyles} from "../../constants/custom_styles";
 
-const navigation = createNativeStackNavigator();
-
+createNativeStackNavigator();
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [secureTextEntry, setSecureTextEntry] = useState(true);
-
     const handleLogin = () => {
         console.log('Logging in with', {email, password});
         navigation.replace("Dashboard");
     };
 
+    const forgetPasswordHandle = () => {
+        console.log('Taking user to forget password screen');
+        navigation.navigate("ForgetPassword");
+    };
+
     const goToRegisterScreen = () => {
         navigation.replace("SignUp");
     };
-    const toggleSecureEntry = () => {
-        setSecureTextEntry(!secureTextEntry);
-    };
-
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.container}>
@@ -63,6 +62,11 @@ const LoginScreen = ({navigation}) => {
                     onChangeText={(text) => setPassword(text)}
                     keyboardAppearance='light'
                 />
+                <View style={styles.forgotPasswordView}>
+                    <TouchableOpacity onPress={forgetPasswordHandle}>
+                        <Text style={styles.forgotPasswordText}>{TextStrings.forgetPassword}</Text>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={TypeScale.button}>{TextStrings.login}</Text>
                 </TouchableOpacity>
@@ -75,49 +79,31 @@ const LoginScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    scrollViewContainer: {
-        flexGrow: 1,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: Sizes.screenPadding,
-        backgroundColor: Colors.backgroundColor,
-    },
+    scrollViewContainer: CustomStyles.screenScrollContainerStyle,
+    container: CustomStyles.screenContainerStyle,
+    title: CustomStyles.title,
+    subtitle: CustomStyles.subtitle,
     image: {
         height: Dimensions.get('window').width * 0.45,
         width: Dimensions.get('window').width * 0.45,
     },
-    title: {
-        ...TypeScale.h1Headline,
-        marginBottom: Sizes.formHeight * 0.3,
-    },
-    subtitle: {
-        ...TypeScale.h4Headline,
-        marginBottom: Sizes.formHeight,
-    },
     input: {
-        ...TypeScale.subtitle1,
+        ...CustomStyles.input,
         width: '100%',
-        height: Sizes.buttonHeight,
-        borderWidth: 1,
-        borderRadius: Sizes.textFormFieldRadius,
-        borderColor: Colors.lightColor,
-        marginBottom: Sizes.formHeight,
-        padding: Sizes.textFormFieldPadding,
     },
-    button: {
-        height: Sizes.buttonHeight,
+    forgotPasswordView: {
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.accentColor,
-        borderRadius: Sizes.buttonRadius,
+        alignItems: 'flex-end',
+        marginBottom: Sizes.formHeight,
+    },
+    forgotPasswordText: TypeScale.button,
+    button: {
+        ...CustomStyles.button,
+        width: '100%',
     },
     footerText: {
         ...TypeScale.subtitle2,
-        marginTop: Sizes.formHeight * 3,
+        marginTop: Sizes.formHeight * 2,
     },
 });
 

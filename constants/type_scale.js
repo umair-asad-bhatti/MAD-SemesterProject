@@ -55,7 +55,7 @@ const TypeScale = {
     },
     button: {
         fontSize: Sizes.button,
-        color: Colors.lightColor,
+        color: Colors.buttonTextColor,
         fontFamily: Fonts.robotoCondensedBold,
     },
     caption: {
