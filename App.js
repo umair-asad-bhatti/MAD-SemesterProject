@@ -3,8 +3,9 @@ import NavigationService from './services/navigation_service/navigation_service'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import * as NavigationBar from 'expo-navigation-bar';
-import {Colors} from "./constants/colors";
+import { Colors } from "./constants/colors";
 import Loading from "./components/loading/Loading";
+import { StatusBar } from 'expo-status-bar';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -35,6 +36,8 @@ export default function App() {
     return <Loading />; // or render a custom loading screen
   }
   return (
-    <NavigationService />
+    <>
+      <NavigationService />
+    </>
   );
 }

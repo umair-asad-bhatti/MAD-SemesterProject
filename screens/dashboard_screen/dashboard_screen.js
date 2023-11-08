@@ -5,40 +5,47 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Ionicons } from '@expo/vector-icons';
 import SettingsScreen from '../settings_screen/settings_screen';
 import OverviewScreen from '../overview_screen/overview_screen';
+
 const Tab = createMaterialTopTabNavigator();
+
 const DashboardScreen = () => {
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="#f2f2f2" barStyle="dark-content" />
             <Tab.Navigator
                 screenOptions={({ route }) => ({
-
-                    "tabBarActiveTintColor": Colors.primaryColor,
-                    "tabBarInactiveTintColor": "black",
-                    "tabBarShowLabel": true,
-                    "tabBarShowIcon": true,
-                    "tabBarStyle": {
-                        "backgroundColor": Colors.lightColor
+                    tabBarActiveTintColor: Colors.primaryColor,
+                    tabBarInactiveTintColor: 'black',
+                    tabBarShowLabel: true,
+                    tabBarShowIcon: true,
+                    tabBarIndicatorStyle: {
+                        backgroundColor: 'transparent', // Remove the indicator border
                     },
-                    tabBarIcon: ({ color, focused }) => {
-                        let iconName;
-                        if (route.name === 'overview') {
-                            iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
-                        } else if (route.name === 'Settings') {
-                            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-                        }
-                        return <Ionicons name={iconName} size={20} color={color} />;
+                    tabBarStyle: {
+                        backgroundColor: Colors.lightColor,
+                        elevation: 0, // Remove the shadow on Android
+                        borderTopWidth: 0, // Remove the border on Android
+                        borderBottomWidth: 0, // Remove the border on iOS
                     },
                     tabBarLabel: ({ focused, color }) => {
                         let labelName;
+                        let iconName;
                         if (route.name === 'overview') {
-                            labelName = 'Overview';
+                            labelName = focused ? 'Overview' : '';
+                            iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
                         } else if (route.name === 'Settings') {
-                            labelName = 'Settings';
+                            labelName = focused ? 'Settings' : '';
+                            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
                         }
-                        return <Text style={{ color: color }}>{labelName}</Text>;
+                        return (
+                            <View style={{ flexDirection: 'row', width: 100, gap: 10 }}>
+                                <Ionicons name={iconName} size={20} color={color} />
+                                <Text style={{ color }}>{labelName}</Text>
+                            </View>
+                        );
                     },
-                })}>
+                })}
+            >
                 <Tab.Screen name="Settings" component={SettingsScreen} />
                 <Tab.Screen name="overview" component={OverviewScreen} />
             </Tab.Navigator>
@@ -46,15 +53,11 @@ const DashboardScreen = () => {
     );
 };
 
-
-
 const styles = StyleSheet.create({
     container: {
-
         flex: 1,
         backgroundColor: '#fff',
     },
-
 });
 
 export default DashboardScreen;
