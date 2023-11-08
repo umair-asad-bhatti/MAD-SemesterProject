@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -10,20 +10,21 @@ import {
     Dimensions,
     ScrollView
 } from 'react-native';
-import {TextStrings} from "../../constants/text_strings";
-import {Colors} from "../../constants/colors";
-import {Sizes} from "../../constants/sizes";
-import {TypeScale} from "../../constants/type_scale";
-import {ImageStrings} from "../../constants/image_strings";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {CustomStyles} from "../../constants/custom_styles";
+import { TextStrings } from "../../constants/text_strings";
+import { Colors } from "../../constants/colors";
+import { Sizes } from "../../constants/sizes";
+import { TypeScale } from "../../constants/type_scale";
+import { ImageStrings } from "../../constants/image_strings";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { CustomStyles } from "../../constants/custom_styles";
+import Button from '../../components/button/button';
 
 createNativeStackNavigator();
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleLogin = () => {
-        console.log('Logging in with', {email, password});
+        console.log('Logging in with', { email, password });
         navigation.replace("Dashboard");
     };
 
@@ -38,8 +39,8 @@ const LoginScreen = ({navigation}) => {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.container}>
-                <StatusBar backgroundColor={Colors.backgroundColor} barStyle="light-content"/>
-                <Image style={styles.image} source={ImageStrings.mainLogo}/>
+                <StatusBar backgroundColor={Colors.backgroundColor} barStyle="light-content" />
+                <Image style={styles.image} source={ImageStrings.mainLogo} />
                 <Text style={styles.title}>{TextStrings.loginTitle}</Text>
                 <Text style={styles.subtitle}>{TextStrings.loginSubtitle}</Text>
                 <TextInput
@@ -67,9 +68,7 @@ const LoginScreen = ({navigation}) => {
                         <Text style={styles.forgotPasswordText}>{TextStrings.forgetPassword}</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                    <Text style={TypeScale.button}>{TextStrings.login}</Text>
-                </TouchableOpacity>
+                <Button text={TextStrings.login} onButtonPress={handleLogin} />
                 <TouchableOpacity onPress={goToRegisterScreen}>
                     <Text style={styles.footerText}>{TextStrings.notRegistered}</Text>
                 </TouchableOpacity>
