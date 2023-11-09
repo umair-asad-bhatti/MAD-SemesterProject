@@ -16,9 +16,10 @@ export default function RecipeDetailScreen({ route }) {
     getMealDetails()
   }, [])
   return (
-    <View style={{ flex: 1, padding: Sizes.screenPadding }}>
+    <View style={{ flex: 0.9, padding: Sizes.screenPadding }}>
       <Image source={{ uri: MealDetails.strMealThumb }} style={{ borderRadius: 20, width: '100%', height: '40%' }} />
-      <Text style={{ color: Colors.accentColor, marginVertical: 20 }}>{MealDetails.strMeal}</Text>
+      <Text style={{ color: Colors.accentColor, marginVertical: 10 }}>{MealDetails.strMeal}</Text>
+      <Text style={{ marginVertical: 10 }}>{MealDetails.strArea}</Text>
       <Text>{MealDetails.strInstructions}</Text>
     </View>
   )
