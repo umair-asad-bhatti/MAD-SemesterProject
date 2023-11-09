@@ -189,8 +189,8 @@ const DashboardScreen = () => {
                 height: 2,
                 backgroundColor: Colors.accentColor,
                 position: 'absolute',
-                bottom: 80,
-                // Horizontal Padding = 20...
+                bottom: 20,
+
                 left: 35,
                 borderRadius: 20,
                 transform: [
