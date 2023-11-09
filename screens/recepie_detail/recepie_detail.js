@@ -4,7 +4,7 @@ import React from 'react'
 export default function RecipeDetailScreen({ route }) {
   const { itemId } = route.params
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Text>{itemId}</Text>
     </View>
   )
