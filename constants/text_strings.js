@@ -7,7 +7,7 @@ const TextStrings = {
     confirmPassword: 'Confirm Password',
 
     //welcome screen texts
-    welcomeTitle: 'Start Tracking Your Expenses Today',
+    welcomeTitle: 'Expore the recipe of your taste',
     welcomeSubtitle: 'Empower Your Financial Goals with ExpenseTracker',
 
     //login screen texts
@@ -29,4 +29,4 @@ const TextStrings = {
     alreadyRegistered: 'Already Registered? Sign Up Here',
 };
 
-export {TextStrings};
+export { TextStrings };
