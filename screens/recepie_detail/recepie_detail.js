@@ -11,7 +11,6 @@ export default function RecipeDetailScreen({ route }) {
       const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       const data = response.data
       setMealDetails(data.meals[0])
-
     }
     getMealDetails()
   }, [])
