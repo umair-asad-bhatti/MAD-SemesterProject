@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, Text } from 'react-native';
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
-const CategoryCardSize = 80
+const CategoryCardSize = 70
 const CategoryCircularCard = ({ item, setActiveCategory, activeCategory }) => {
     const categoryName = item.strCategory.toLowerCase()
     const categoryImg = item.strCategoryThumb

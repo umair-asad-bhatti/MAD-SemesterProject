@@ -5,6 +5,7 @@ import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
 import { TypeScale } from '../../constants/type_scale'
+import RecepirCard from '../../components/RecepirCard/recepie_card'
 const logo_size = 50
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
@@ -30,7 +31,7 @@ export default function HomeScreen() {
     }, [activeCategory])
     return (
         <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-            <View style={{ flex: 0.35 }}>
+            <View style={{ flex: 0.37 }}>
                 <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                     <Text style={{ ...TypeScale.h4Headline, color: Colors.accentColor, fontWeight: 'bold' }}>Recipe At Door</Text>
                     <Image style={{ width: logo_size, height: logo_size, borderRadius: logo_size }} source={require("../../assets/download.jpg")} />
@@ -46,30 +47,15 @@ export default function HomeScreen() {
                     }}
                 />
             </View>
-            <View style={{ flex: 0.56 }}>
+            <View style={{ flex: 0.54 }}>
                 <FlatList
                     data={Recipes}
+                    showsVerticalScrollIndicator={false}
                     numColumns={2}
                     ListEmptyComponent={<ActivityIndicator color={Colors.accentColor} size={Sizes.h4Headline} />}
                     columnWrapperStyle={{ justifyContent: 'space-between' }}
                     renderItem={({ item }) => {
-                        const itemName = item.strMeal
-                        const itemImg = item.strMealThumb
-                        return <View style={{
-                            padding: 10, flex: 1, margin: 5, backgroundColor: Colors.lightColor, width: 100, shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 4,
-                            },
-                            shadowOpacity: 0.32,
-                            shadowRadius: 5.46,
-
-                            elevation: 9,
-                            borderRadius: 20
-                        }}>
-                            <Image fadeDuration={200} resizeMode='cover' source={{ uri: itemImg }} style={{ borderRadius: 10 }} width={134} height={100} />
-                            <Text style={{ opacity: 0.6, fontSize: Sizes.body1, textAlign: 'center', marginTop: 10 }}>{itemName}</Text>
-                        </View>
+                        return <RecepirCard item={item} />
                     }}
                 />
             </View>
