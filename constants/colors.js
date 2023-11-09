@@ -1,6 +1,6 @@
 // Colors.js
 const Colors = {
-    primaryColor:'#3b5998',
+    primaryColor: '#3b5998',
     backgroundColor: '#045D56',
     accentColor: '#1EB980',
     cardBackgroundColor: '#134B5F',
@@ -15,4 +15,4 @@ const Colors = {
     errorColor: 'red',
 };
 
-export {Colors};
+export { Colors };

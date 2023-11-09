@@ -7,12 +7,10 @@ export default function BoardingScreen({ navigation }) {
     const innerRingPadding = useSharedValue(0)
     const buttonOpacity = useSharedValue(0)
     useEffect(() => {
-        outerRingPadding.value = 0
-        innerRingPadding.value = 0
         innerRingPadding.value = withDelay(600, withSpring(innerRingPadding.value + 40))
         outerRingPadding.value = withDelay(800, withSpring(outerRingPadding.value + 40))
         buttonOpacity.value = withDelay(1600, withSpring(buttonOpacity.value + 1))
-    })
+    }, [])
     return (
         <View style={styles.container}>
             <Animated.View style={{ padding: outerRingPadding, backgroundColor: 'rgba(128, 0, 128,0.1)', borderRadius: 200 }}>
