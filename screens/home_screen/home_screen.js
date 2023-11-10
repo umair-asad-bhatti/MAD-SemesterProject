@@ -64,8 +64,8 @@ export default function HomeScreen() {
                                     const itemName = item.strMeal
                                     const itemImg = item.strMealThumb
                                     const itemId = item.idMeal
-                                    const source = 'mealdb'
-                                    return <RecepirCard itemName={itemName} itemImg={itemImg} itemId={itemId} source={source} />
+                                    const category = 'meals'
+                                    return <RecepirCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
 
                                 }}
                             />
