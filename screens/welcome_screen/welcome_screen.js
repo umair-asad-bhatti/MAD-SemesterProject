@@ -29,8 +29,8 @@ const WelcomeScreen = ({ navigation }) => {
         <View style={styles.container}>
             <StatusBar backgroundColor={Colors.backgroundColor} barStyle="light-content" />
             <View style={styles.container}>
-                <Animated.View style={{ padding: outerRingPadding, backgroundColor: 'rgba(0, 0, 0,0.2)', borderRadius: 200 }}>
-                    <Animated.View style={{ padding: innerRingPadding, backgroundColor: 'rgba(0, 0, 0,0.2)', borderRadius: 200 }}>
+                <Animated.View style={{ padding: outerRingPadding, backgroundColor: 'rgba(255, 255, 255,0.2)', borderRadius: 200 }}>
+                    <Animated.View style={{ padding: innerRingPadding, backgroundColor: 'rgba(255, 255, 255,0.2)', borderRadius: 200 }}>
                         <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={require("../../assets/download.jpg")} />
                     </Animated.View>
                 </Animated.View>
@@ -38,11 +38,11 @@ const WelcomeScreen = ({ navigation }) => {
             <View style={{ marginBottom: 30, width: '100%' }}>
                 <Text style={styles.title}>{TextStrings.welcomeTitle}</Text>
                 <Text style={styles.subtitle}>{TextStrings.welcomeSubtitle}</Text>
-                    <TouchableOpacity onPress={continueButtonHandle} >
-                        <Animated.View style={[styles.button, { opacity: buttonOpacity }]} >
-                                <TextIconButtonView textString={TextStrings.continue} icon={Icons.rightArrowIcon} />
-                        </Animated.View>    
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={continueButtonHandle} >
+                    <Animated.View style={[styles.button, { opacity: buttonOpacity }]} >
+                        <TextIconButtonView textString={TextStrings.continue} icon={Icons.rightArrowIcon} />
+                    </Animated.View>
+                </TouchableOpacity>
             </View>
         </View>
     );

@@ -9,6 +9,7 @@ import HomeScreen from '../home_screen/home_screen';
 import AccountScreen from '../accounts_screen/account_screen';
 import BoardingScreen from '../boarding_screen/boarding_screen';
 const Tab = createBottomTabNavigator();
+const iconSize = 22;
 function getWidth() {
     let width = Dimensions.get("window").width
     // Horizontal Padding = 20...
@@ -66,7 +67,7 @@ const DashboardScreen = () => {
                         }}>
                             <FontAwesome5
                                 name="home"
-                                size={25}
+                                size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>
                         </View>
@@ -89,8 +90,8 @@ const DashboardScreen = () => {
                             top: 20
                         }}>
                             <FontAwesome5
-                                name="search"
-                                size={25}
+                                name="wine-bottle"
+                                size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>
                         </View>
@@ -119,7 +120,7 @@ const DashboardScreen = () => {
                         }}>
                             <FontAwesome5
                                 name="snowboarding"
-                                size={25}
+                                size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>
                         </View>
@@ -143,7 +144,7 @@ const DashboardScreen = () => {
                         }}>
                             <FontAwesome5
                                 name="bell"
-                                size={25}
+                                size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>
                         </View>
@@ -167,7 +168,7 @@ const DashboardScreen = () => {
                         }}>
                             <FontAwesome5
                                 name="user-alt"
-                                size={25}
+                                size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>
                         </View>
@@ -176,7 +177,7 @@ const DashboardScreen = () => {
                     // Onpress Update....
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
-                            toValue: getWidth() * 4.6,
+                            toValue: getWidth() * 4.55,
                             useNativeDriver: true
                         }).start();
                     }

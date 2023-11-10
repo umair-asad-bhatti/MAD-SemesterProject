@@ -20,7 +20,7 @@ export default function NavigationService() {
                 <Stack.Screen
                     name="RecipeDetailScreen"
                     component={RecipeDetailScreen}
-                    options={{ headerShown: false }}
+
                 />
                 <Stack.Screen
                     name="Login"

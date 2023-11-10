@@ -4,12 +4,10 @@ import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { useNavigation } from '@react-navigation/native'
 
-export default function RecepirCard({ item }) {
+export default function RecepirCard({ itemName, itemImg, itemId, source }) {
   const navigation = useNavigation()
-  const itemName = item.strMeal
-  const itemImg = item.strMealThumb
-  const itemId = item.idMeal
-  return <TouchableOpacity onPress={() => navigation.navigate("RecipeDetailScreen", { itemId })} style={{
+
+  return <TouchableOpacity onPress={() => navigation.navigate("RecipeDetailScreen", { itemId, source })} style={{
     padding: 10, flex: 1, margin: 5, backgroundColor: Colors.lightColor, width: 100, shadowColor: "#000",
     shadowOffset: {
       width: 0,

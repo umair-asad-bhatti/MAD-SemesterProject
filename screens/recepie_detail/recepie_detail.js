@@ -1,25 +1,90 @@
-import { View, Text, Image } from 'react-native'
+
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Sizes } from '../../constants/sizes'
+import { Image, ScrollView, Text, View, StyleSheet } from 'react-native'
 import { Colors } from '../../constants/colors'
-export default function RecipeDetailScreen({ route }) {
-  const { itemId } = route.params
-  const [MealDetails, setMealDetails] = useState({})
+import { Sizes } from '../../constants/sizes'
+import { getData } from '../../utils'
+import { FontAwesome5 } from '@expo/vector-icons'
+import Button from '../../components/button/button'
+const image_size = 300
+const heart_size = 50
+const heart_bg = '#00755E'
+export default function RecipeDetailScreen({ route, navigation }) {
+
+  const { itemId, source } = route.params
+
+  const [MealDetails, setMealDetails] = useState({}) //store the data from api
+
+  //parsed data from api
+  const [data, setData] = useState({
+    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: ""
+  });
+
+  //get the data from api
   useEffect(() => {
     const getMealDetails = async () => {
-      const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
-      const data = response.data
-      setMealDetails(data.meals[0])
+      let data = null
+      if (source == 'mealdb') {
+        data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
+        setMealDetails(data.meals[0])
+      }
+
     }
     getMealDetails()
-  }, [])
+  }, [source])
+
+  //extract the data from mealDetails state according to api used
+  useEffect(() => {
+    if (source == 'mealdb') {
+      setData({
+        mealName: MealDetails.strMeal,
+        mealImg: MealDetails.strMealThumb,
+        mealArea: MealDetails.strArea,
+        mealDescription: MealDetails.strInstructions,
+        mealCategory: MealDetails.strCategory
+      })
+
+    }
+
+  }, [MealDetails])
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => {
+        return <View>
+          <Text style={{ color: Colors.accentColor, fontWeight: 'bold' }}>{data.mealName}</Text>
+          <Text style={{ marginTop: 5 }}>{data.mealArea + " | " + data.mealCategory}</Text>
+        </View>
+      }
+    })
+  }, [data])
+
   return (
-    <View style={{ flex: 0.9, padding: Sizes.screenPadding }}>
-      <Image source={{ uri: MealDetails.strMealThumb }} style={{ borderRadius: 20, width: '100%', height: '40%' }} />
-      <Text style={{ color: Colors.accentColor, marginVertical: 10 }}>{MealDetails.strMeal}</Text>
-      <Text style={{ marginVertical: 10 }}>{MealDetails.strArea}</Text>
-      <Text>{MealDetails.strInstructions}</Text>
-    </View>
+    <>
+      <View style={{ flex: 1 }}>
+        <Image source={{ uri: data.mealImg }} style={{ borderRadius: image_size, width: image_size, height: image_size, position: 'relative', left: '40%', top: 80, zIndex: 23 }} />
+        <View style={{ position: 'absolute', width: 170, top: 50 }}>
+          <Button text={'Youtube'} onButtonPress={{}} />
+        </View>
+        <View style={{ position: 'absolute', width: 140, top: 110 }}>
+          <Button text={'source recipe'} onButtonPress={{}} />
+        </View>
+        <View style={{ position: 'absolute', width: 100, top: 170 }}>
+          <Button text={'source recipe'} onButtonPress={{}} />
+        </View>
+        <View style={{
+          zIndex: 100, borderRadius: 5, position: 'relative', top: 20, left: 30, width: heart_size, height: heart_size, justifyContent: 'center', alignItems: "center", backgroundColor: heart_bg
+        }}>
+          < FontAwesome5
+            name='heart'
+            color={Colors.accentColor}
+            size={Sizes.h3Headline}
+          />
+        </View>
+        <ScrollView style={{ backgroundColor: Colors.accentColor, borderTopLeftRadius: 40, padding: 20 }}>
+          <Text style={{ marginTop: 10, color: Colors.lightColor }}>{data.mealDescription}</Text>
+        </ScrollView>
+      </View >
+
+    </>
   )
 }

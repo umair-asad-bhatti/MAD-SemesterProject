@@ -1,11 +1,13 @@
-import axios from 'axios'
+
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import RecepirCard from '../../components/RecepirCard/recepie_card'
+import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
-import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
 import { TypeScale } from '../../constants/type_scale'
-import RecepirCard from '../../components/RecepirCard/recepie_card'
+import { getData } from '../../utils'
+import Animated, { FadeInDown, FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 const logo_size = 50
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
@@ -15,16 +17,14 @@ export default function HomeScreen() {
     useEffect(() => {
         const getCategories = async () => {
             setRecipes([])
-            const response = await axios.get("https://www.themealdb.com/api/json/v1/1/categories.php")
-            const data = response.data
+            const data = await getData('https://www.themealdb.com/api/json/v1/1/categories.php')
             setCategories(data.categories)
         }
         getCategories()
     }, [])
     useEffect(() => {
         const getRecipeByCategory = async () => {
-            const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`)
-            const data = response.data
+            const data = await getData(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`)
             setRecipes(data.meals)
         }
         getRecipeByCategory()
@@ -37,30 +37,43 @@ export default function HomeScreen() {
                     <Image style={{ width: logo_size, height: logo_size, borderRadius: logo_size }} source={require("../../assets/download.jpg")} />
                 </View>
                 <Text style={[TypeScale.h2Headline, { color: Colors.darkColor }]}>Lets Explore the Recipes of your <Text style={{ color: Colors.accentColor }}>Taste</Text></Text>
-                <Text style={[TypeScale.h6Headline, { color: Colors.accentColor, marginLeft: 10, marginBottom: 10 }]}>Categories</Text>
+                <Text style={[TypeScale.h6Headline, { color: Colors.accentColor, marginVertical: 5 }]}>Categories</Text>
                 <FlatList
                     data={categories}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => {
-                        return <CategoryCircularCard item={item} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+                    renderItem={({ item, index }) => {
+                        const categoryName = item.strCategory.toLowerCase()
+                        const categoryImg = item.strCategoryThumb
+                        return <Animated.View entering={FadeInLeft.delay(100 + (index * 100))}>
+                            <CategoryCircularCard categoryName={categoryName} categoryImg={categoryImg} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+                        </Animated.View>
                     }}
                 />
             </View>
             <View style={{ flex: 0.54 }}>
-                <FlatList
-                    data={Recipes}
-                    showsVerticalScrollIndicator={false}
-                    numColumns={2}
-                    ListEmptyComponent={<ActivityIndicator color={Colors.accentColor} size={Sizes.h4Headline} />}
-                    columnWrapperStyle={{ justifyContent: 'space-between' }}
-                    renderItem={({ item }) => {
-                        return <RecepirCard item={item} />
-                    }}
-                />
+                {
+                    Recipes.length > 0 ?
+                        <Animated.View entering={FadeInDown.delay(200)}>
+                            <FlatList
+                                data={Recipes}
+                                showsVerticalScrollIndicator={false}
+                                numColumns={2}
+                                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                                renderItem={({ item }) => {
+                                    const itemName = item.strMeal
+                                    const itemImg = item.strMealThumb
+                                    const itemId = item.idMeal
+                                    const source = 'mealdb'
+                                    return <RecepirCard itemName={itemName} itemImg={itemImg} itemId={itemId} source={source} />
+
+                                }}
+                            />
+                        </Animated.View> :
+                        <ActivityIndicator />
+                }
+
             </View>
-
-
         </View >
     )
 }
