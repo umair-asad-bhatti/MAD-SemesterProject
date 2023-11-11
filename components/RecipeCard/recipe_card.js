@@ -4,7 +4,7 @@ import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { useNavigation } from '@react-navigation/native'
 
-export default function RecepirCard({ itemName, itemImg, itemId, category }) {
+export default function RecepieCard({ itemName, itemImg, itemId, category }) {
   const navigation = useNavigation()
 
   return <TouchableOpacity onPress={() => navigation.navigate("RecipeDetailScreen", { itemId, category })} style={{
