@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useRef } from 'react';
 import { Animated, StatusBar, StyleSheet, Text, View, Dimensions } from 'react-native';
 import { Colors } from '../../constants/colors';
-import OverviewScreen from '../overview_screen/overview_screen';
+import Drink_Screen from '../drink_screen/drink_screen';
 import SettingsScreen from '../settings_screen/settings_screen';
 import HomeScreen from '../home_screen/home_screen';
 import AccountScreen from '../accounts_screen/account_screen';
-import BoardingScreen from '../boarding_screen/boarding_screen';
+import Search_Screen from '../search_screen/search_screen';
 const Tab = createBottomTabNavigator();
 const iconSize = 22;
 function getWidth() {
@@ -57,13 +57,12 @@ const DashboardScreen = () => {
 
                     // Tab ICons....
                 }
-                <Tab.Screen name={"Home"} component={HomeScreen} options={{
+                <Tab.Screen name={"Home_Screen"} component={HomeScreen} options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{
                             // centring Tab Button...
                             position: 'absolute',
                             top: 20,
-
                         }}>
                             <FontAwesome5
                                 name="home"
@@ -82,7 +81,7 @@ const DashboardScreen = () => {
                     }
                 })}></Tab.Screen>
 
-                <Tab.Screen name={"Overview"} component={OverviewScreen} options={{
+                <Tab.Screen name={"Drink_Screen"} component={Drink_Screen} options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{
                             // centring Tab Button...
@@ -110,7 +109,7 @@ const DashboardScreen = () => {
                     // Extra Tab Screen For Action Button..
                 }
 
-                <Tab.Screen name={"ActionButton"} component={BoardingScreen} options={{
+                <Tab.Screen name={"Search_Screen"} component={Search_Screen} options={{
                     tabBarIcon: ({ focused }) => (
 
                         <View style={{
@@ -119,7 +118,7 @@ const DashboardScreen = () => {
                             top: 20
                         }}>
                             <FontAwesome5
-                                name="snowboarding"
+                                name="search"
                                 size={iconSize}
                                 color={focused ? Colors.accentColor : 'gray'}
                             ></FontAwesome5>

@@ -6,6 +6,7 @@ const TextStrings = {
     password: 'Password',
     confirmPassword: 'Confirm Password',
 
+
     //welcome screen texts
     welcomeTitle: 'Expore the recipe of your taste',
     welcomeSubtitle: 'Empower Your Financial Goals with ExpenseTracker',
