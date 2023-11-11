@@ -6,6 +6,7 @@ import DashboardScreen from "../../screens/dashboard_screen/dashboard_screen";
 import WelcomeScreen from "../../screens/welcome_screen/welcome_screen";
 import ForgetPasswordScreen from "../../screens/forget_password_screen/forget_password_screen";
 import RecipeDetailScreen from "../../screens/recepie_detail/recepie_detail";
+import Youtube_Screen from "../../screens/youtube_screen/youtube_screen";
 const Stack = createNativeStackNavigator();
 
 export default function NavigationService() {
@@ -20,6 +21,11 @@ export default function NavigationService() {
                 <Stack.Screen
                     name="RecipeDetailScreen"
                     component={RecipeDetailScreen}
+
+                />
+                <Stack.Screen
+                    name="youtube_screen"
+                    component={Youtube_Screen}
 
                 />
                 <Stack.Screen

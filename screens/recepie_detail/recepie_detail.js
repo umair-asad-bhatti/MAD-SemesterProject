@@ -2,23 +2,26 @@
 import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors } from '../../constants/colors'
+import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
 import { getData } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
 import { FontAwesome5 } from '@expo/vector-icons'
-import Button from '../../components/button/button'
+
 import { TypeScale } from '../../constants/type_scale'
 const image_size = 300
 const heart_size = 50
 const heart_bg = '#00755E'
-export default function RecipeDetailScreen({ route, navigation }) {
+const youtubeicon_size = 25
+const youtubeicon_color = Colors.accentColor
+export default function RecipeDetailScreen({ route }) {
 
   const { itemId, category } = route.params
   const [MealDetails, setMealDetails] = useState({}) //store the data from api
-
+  const navigation = useNavigation()
   //parsed data from api
   const [data, setData] = useState({
-    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: ""
+    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null
   });
 
 
@@ -49,7 +52,8 @@ export default function RecipeDetailScreen({ route, navigation }) {
         mealImg: MealDetails.strMealThumb,
         mealArea: MealDetails.strArea,
         mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory
+        mealCategory: MealDetails.strCategory,
+        youtuebId: MealDetails.strYoutube
       })
     }
 
@@ -81,9 +85,10 @@ export default function RecipeDetailScreen({ route, navigation }) {
       <View style={{ flex: 1 }}>
         <Image source={{ uri: data.mealImg }} style={{ borderRadius: image_size, width: image_size, height: image_size, position: 'relative', left: '40%', top: 80, zIndex: 23 }} />
         <View style={{ position: 'absolute', width: 170, top: 50 }}>
-          <TouchableOpacity style={[CustomStyles.button]}>
-            <Text style={TypeScale.button}>Youtube</Text>
-          </TouchableOpacity>
+          {data.youtuebId && <TouchableOpacity onPress={() => navigation.navigate('youtube_screen', { youtubeId: data.youtuebId, mealName: data.mealName })} style={[CustomStyles.button, { flexDirection: 'row', justifyContent: 'space-evenly' }]}>
+            <FontAwesome5 size={youtubeicon_size} name={'youtube'} color={youtubeicon_color} />
+            <Text style={TypeScale.button}>watch on Youtube</Text>
+          </TouchableOpacity>}
         </View>
         <View style={{ position: 'absolute', width: 140, top: 110 }}>
           <TouchableOpacity style={[CustomStyles.button, { backgroundColor: 'rgba(255,0,0,0.2)' }]}>

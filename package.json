@@ -32,7 +32,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-snackbar": "^2.6.2",
     "react-native-system-navigation-bar": "^2.6.1",
-    "expo-blur": "~12.4.1"
+    "expo-blur": "~12.4.1",
+    "react-native-webview": "13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
