@@ -7,7 +7,6 @@ import { Sizes } from '../../constants/sizes'
 import { getData } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
 import { FontAwesome5 } from '@expo/vector-icons'
-
 import { TypeScale } from '../../constants/type_scale'
 const image_size = 300
 const heart_size = 50
