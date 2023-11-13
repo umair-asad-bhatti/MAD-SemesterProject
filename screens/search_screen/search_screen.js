@@ -60,24 +60,26 @@ export default function Search_Screen() {
 
     return (
         <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-            <Text
-                style={{
-                    marginVertical: 10,
-                    ...TypeScale.h6Headline,
-                    color: Colors.accentColor,
-                }}>
-                Search By Ingredient
-            </Text>
-            <View style={styles.search_field}>
-                <TextInput
-                    placeholder={placeholder}
-                    cursorColor={curosr_Color}
-                    value={ingredient}
-                    onChangeText={setIngredient}
-                />
-                <FontAwesome5 name="search" size={search_icon_size} color={search_icon_color} />
+            <View style={{ flex: 0.15 }}>
+                <Text
+                    style={{
+                        marginVertical: 10,
+                        ...TypeScale.h6Headline,
+                        color: Colors.accentColor,
+                    }}>
+                    Search By Ingredient
+                </Text>
+                <View style={styles.search_field}>
+                    <TextInput
+                        placeholder={placeholder}
+                        cursorColor={curosr_Color}
+                        value={ingredient}
+                        onChangeText={setIngredient}
+                    />
+                    <FontAwesome5 name="search" size={search_icon_size} color={search_icon_color} />
+                </View>
             </View>
-            <View contentContainerStyle={{ flex: 0.9, marginTop: 10 }}>
+            <View style={{ flex: 0.75, marginTop: 10 }}>
                 {loading ? (
                     <ActivityIndicator color={indicator_color} size={indicator_size} style={{ marginTop }} />
                 ) : Meals.length > 0 ? (

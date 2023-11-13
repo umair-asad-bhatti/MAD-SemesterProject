@@ -9,6 +9,7 @@ import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
 import RecipeCard from "../../components/RecipeCard/recipe_card";
 import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
 import { drinkdb_catDrink_api, drinkdb_category_api } from '../../constants/api'
+import MasonryList from '@react-native-seoul/masonry-list';
 export default function Drink_Screen() {
   const [categories, setCategories] = useState([])
   const [activeCategory, setActiveCategory] = useState('ordinary drink')
@@ -50,22 +51,37 @@ export default function Drink_Screen() {
       <View style={{ flex: 0.6 }}>
         {
           Drinks.length > 0 ?
-            <Animated.View entering={FadeInDown.delay(200)}>
-              <FlatList
-                data={Drinks}
-                showsVerticalScrollIndicator={false}
-                numColumns={2}
-                columnWrapperStyle={{ justifyContent: 'space-between' }}
-                renderItem={({ item }) => {
-                  const itemName = item.strDrink
-                  const itemImg = item.strDrinkThumb
-                  const itemId = item.idDrink
-                  const category = 'drink'
-                  return <RecipeCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
+            // <Animated.View entering={FadeInDown.delay(200)}>
+            //   <FlatList
+            //     data={Drinks}
+            //     showsVerticalScrollIndicator={false}
+            //     numColumns={2}
+            //     columnWrapperStyle={{ justifyContent: 'space-between' }}
+            //     renderItem={({ item }) => {
+            //       const itemName = item.strDrink
+            //       const itemImg = item.strDrinkThumb
+            //       const itemId = item.idDrink
+            //       const category = 'drink'
+            //       return <RecipeCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
 
-                }}
-              />
-            </Animated.View> :
+            //     }}
+            //   />
+            // </Animated.View> :
+            <MasonryList
+              style={{ justifyContent: 'center', alignItems: "center" }}
+
+              data={Drinks}
+              showsVerticalScrollIndicator={false}
+              numColumns={2}
+              renderItem={({ item, index }) => {
+
+                const itemName = item.strDrink
+                const itemImg = item.strDrinkThumb
+                const itemId = item.idDrink
+                const category = 'drink'
+                return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
+              }}
+            /> :
             <ActivityIndicator />
         }
       </View>

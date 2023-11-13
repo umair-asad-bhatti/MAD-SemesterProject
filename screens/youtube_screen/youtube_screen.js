@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+
 import React, { useEffect } from 'react'
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
