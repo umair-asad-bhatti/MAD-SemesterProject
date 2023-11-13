@@ -17,7 +17,6 @@ export default function RecipeCard({ itemName, itemImg, itemId, category, index 
       },
       shadowOpacity: 0.20,
       shadowRadius: 1.41,
-
       elevation: 2,
     }}>
 

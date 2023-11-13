@@ -1,6 +1,4 @@
 
-
-
 import {
     View,
     Text,
@@ -10,6 +8,7 @@ import {
     StyleSheet,
     ActivityIndicator,
 } from 'react-native';
+import MasonryList from '@react-native-seoul/masonry-list';
 import React, { useState, useEffect } from 'react';
 import { getData } from '../../utils';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -83,21 +82,22 @@ export default function Search_Screen() {
                 {loading ? (
                     <ActivityIndicator color={indicator_color} size={indicator_size} style={{ marginTop }} />
                 ) : Meals.length > 0 ? (
-                    <Animated.View entering={FlipInYLeft.delay(200)}>
-                        <FlatList
-                            data={Meals}
-                            showsVerticalScrollIndicator={false}
-                            numColumns={2}
-                            columnWrapperStyle={{ justifyContent: 'space-between' }}
-                            renderItem={({ item }) => {
-                                const itemName = item.strMeal;
-                                const itemImg = item.strMealThumb;
-                                const itemId = item.idMeal;
-                                const category = 'meals';
-                                return <RecipeCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />;
-                            }}
-                        />
-                    </Animated.View>
+                    <MasonryList
+                        style={{ justifyContent: 'center', alignItems: "center" }}
+
+                        data={Meals}
+                        showsVerticalScrollIndicator={false}
+                        numColumns={2}
+                        columnWrapperStyle={{ justifyContent: 'space-between' }}
+                        renderItem={({ item, index }) => {
+                            const itemName = item.strMeal;
+                            const itemImg = item.strMealThumb;
+                            const itemId = item.idMeal;
+                            const category = 'meals';
+                            return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
+                        }}
+                    />
+
                 ) : (
                     <Text style={{ marginTop, marginLeft: 120, color: Colors.errorColor }}>No data found</Text>
                 )}
