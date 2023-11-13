@@ -10,6 +10,8 @@ import AccountScreen from '../accounts_screen/account_screen';
 import Search_Screen from '../search_screen/search_screen';
 const Tab = createBottomTabNavigator();
 const iconSize = 22;
+const speed = 3
+const tension = 20
 function getWidth() {
     let width = Dimensions.get("window").width
     // Horizontal Padding = 20...
@@ -76,6 +78,8 @@ const DashboardScreen = () => {
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
                             toValue: 0,
+                            tension: tension,
+
                             useNativeDriver: true
                         }).start();
                     }
@@ -99,6 +103,8 @@ const DashboardScreen = () => {
                     // Onpress Update....
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
+
+                            tension: tension,
                             toValue: getWidth() * 1.1,
                             useNativeDriver: true
                         }).start();
@@ -129,6 +135,8 @@ const DashboardScreen = () => {
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
                             toValue: getWidth() * 2.3,
+
+                            tension: tension,
                             useNativeDriver: true
                         }).start();
                     }
@@ -153,6 +161,8 @@ const DashboardScreen = () => {
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
                             toValue: getWidth() * 3.4,
+
+                            tension: tension,
                             useNativeDriver: true
                         }).start();
                     }
@@ -177,6 +187,8 @@ const DashboardScreen = () => {
                     tabPress: e => {
                         Animated.spring(tabOffsetValue, {
                             toValue: getWidth() * 4.55,
+
+                            tension: tension,
                             useNativeDriver: true
                         }).start();
                     }
@@ -187,6 +199,7 @@ const DashboardScreen = () => {
             <Animated.View style={{
                 width: getWidth() - 20,
                 height: 2,
+
                 backgroundColor: Colors.accentColor,
                 position: 'absolute',
                 bottom: 20,

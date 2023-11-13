@@ -10,10 +10,13 @@ import RecipeCard from "../../components/RecipeCard/recipe_card";
 import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
 import { drinkdb_catDrink_api, drinkdb_category_api } from '../../constants/api'
 import MasonryList from '@react-native-seoul/masonry-list';
+const indicator_color = Colors.accentColor;
+const indicator_size = 50;
 export default function Drink_Screen() {
   const [categories, setCategories] = useState([])
   const [activeCategory, setActiveCategory] = useState('ordinary drink')
   const [Drinks, setDrinks] = useState([])
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getCategories = async () => {
       setDrinks([])
@@ -26,8 +29,12 @@ export default function Drink_Screen() {
     const getCocktails = async () => {
       const data = await getData(drinkdb_catDrink_api + activeCategory)
       setDrinks(data.drinks)
+      setLoading(false)
     }
     getCocktails()
+  }, [activeCategory])
+  useEffect(() => {
+    setLoading(true)
   }, [activeCategory])
   return (
     <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
@@ -50,7 +57,7 @@ export default function Drink_Screen() {
       </View>
       <View style={{ flex: 0.6 }}>
         {
-          Drinks.length > 0 ?
+          Drinks.length > 0 && categories.length > 0 && !loading ?
             // <Animated.View entering={FadeInDown.delay(200)}>
             //   <FlatList
             //     data={Drinks}
@@ -82,7 +89,7 @@ export default function Drink_Screen() {
                 return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
               }}
             /> :
-            <ActivityIndicator />
+            <ActivityIndicator color={indicator_color} size={indicator_size} />
         }
       </View>
     </View >

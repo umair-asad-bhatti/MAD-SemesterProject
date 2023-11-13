@@ -11,11 +11,13 @@ import { getData } from '../../utils'
 import { mealdb_category_api, mealdb_catMeal_api } from '../../constants/api'
 import MasonryList from '@react-native-seoul/masonry-list';
 const logo_size = 50
+const indicator_color = Colors.accentColor;
+const indicator_size = 50;
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
     const [Recipes, setRecipes] = useState([])
     const [activeCategory, setActiveCategory] = useState('beef')
-
+    const [loading, setLoading] = useState(false);
     // handling the active category state
     useEffect(() => {
         const getCategories = async () => {
@@ -25,7 +27,6 @@ export default function HomeScreen() {
         }
 
         getCategories()
-        return () => console.log("unmounting from home screen");
     }, [])
 
     // fetch the data from api whenever category changes
@@ -33,8 +34,14 @@ export default function HomeScreen() {
         const getRecipeByCategory = async () => {
             const data = await getData(mealdb_catMeal_api + activeCategory)
             setRecipes(data.meals)
+            setLoading(false)
         }
         getRecipeByCategory()
+    }, [activeCategory])
+
+
+    useEffect(() => {
+        setLoading(true)
     }, [activeCategory])
     return (
         <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
@@ -59,7 +66,7 @@ export default function HomeScreen() {
             </View>
             <View style={{ flex: 0.6 }}>
                 {
-                    Recipes.length > 0 ?
+                    Recipes.length > 0 && categories.length > 0 && !loading ?
 
                         <MasonryList
                             data={Recipes}
@@ -76,7 +83,7 @@ export default function HomeScreen() {
 
 
                         :
-                        <ActivityIndicator />
+                        <ActivityIndicator size={indicator_size} color={indicator_color} />
                 }
 
             </View>
