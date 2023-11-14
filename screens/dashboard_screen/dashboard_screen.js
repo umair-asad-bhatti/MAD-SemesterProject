@@ -5,7 +5,8 @@ import SearchScreen from "../search_screen/search_screen";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import AccountScreen from "../accounts_screen/account_screen";
 import { Colors } from "../../constants/colors";
-const icon_size = 25
+import { Sizes } from '../../constants/sizes';
+
 const Tab = createMaterialBottomTabNavigator();
 
 const DashboardScreen = () => {
@@ -29,7 +30,7 @@ const DashboardScreen = () => {
                     // tabBarColor: 'red',
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ focused, color }) => (
-                        <AntDesign name="home" color={focused ? 'black' : color} size={icon_size} />
+                        <AntDesign name="home" color={focused ? 'black' : color} size={Sizes.icon_size} />
 
                     ),
                 }}
@@ -41,7 +42,7 @@ const DashboardScreen = () => {
                     tabBarColor: 'red',
                     tabBarLabel: 'Drink',
                     tabBarIcon: ({ focused, color }) => (
-                        <FontAwesome5 name="wine-bottle" color={focused ? 'black' : color} size={icon_size} />
+                        <FontAwesome5 name="wine-bottle" color={focused ? 'black' : color} size={Sizes.icon_size} />
                     ),
                 }}
             />
@@ -51,7 +52,7 @@ const DashboardScreen = () => {
                 options={{
                     tabBarLabel: 'Search',
                     tabBarIcon: ({ focused, color }) => (
-                        <AntDesign name="search1" color={focused ? 'black' : color} size={icon_size} />
+                        <AntDesign name="search1" color={focused ? 'black' : color} size={Sizes.icon_size} />
                     ),
                 }}
             />
@@ -61,7 +62,7 @@ const DashboardScreen = () => {
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ focused, color }) => (
-                        <AntDesign name="user" color={focused ? 'black' : color} size={icon_size} />
+                        <AntDesign name="user" color={focused ? 'black' : color} size={Sizes.icon_size} />
                     ),
                 }}
             />

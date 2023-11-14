@@ -27,6 +27,8 @@ const TextStrings = {
     forgetPasswordTitle: 'Forgot Your Password?',
     forgetPasswordSubtitle: 'Enter Your Email And We Will Send You Reset Password Link On Your Email',
 
+    // search text
+    search_placeholder: 'search by ingredient',
 };
 
 export { TextStrings };

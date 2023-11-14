@@ -2,7 +2,9 @@
 const Sizes = {
     //screen sizes
     screenPadding: 15.0,
-
+    //icon sizings
+    icon_size: 25,
+    search_icon_size: 25,
     //texts sizes
     h1Headline: 32,
     h2Headline: 28,
@@ -31,8 +33,11 @@ const Sizes = {
     textFormFieldPadding: 15.0,
 
     // logos sizes
-    homeScreenMainLogoSize : 50.0,
+    homeScreenMainLogoSize: 50.0,
     screenIndicatorSize: 50.0,
+
+    // Loading indicator size
+    indicator_size: 50,
 };
 
 export { Sizes };

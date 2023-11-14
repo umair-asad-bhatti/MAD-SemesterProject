@@ -66,7 +66,7 @@ export default function HomeScreen() {
                 {
                     Recipes.length > 0 && categories.length > 0 && !loading ?
                         <FlatList
-                            columnWrapperStyle={{ justifyContent: 'center' }}
+                            columnWrapperStyle={{ justifyContent: 'space-between' }}
                             data={Recipes}
                             showsVerticalScrollIndicator={false}
                             numColumns={2}

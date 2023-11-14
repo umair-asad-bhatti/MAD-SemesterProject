@@ -6,8 +6,8 @@ import {
     TextInput,
     StyleSheet,
     ActivityIndicator,
+
 } from 'react-native';
-import MasonryList from '@react-native-seoul/masonry-list';
 import React, { useState, useEffect } from 'react';
 import { getData } from '../../utils';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -16,13 +16,8 @@ import { Colors } from '../../constants/colors';
 import { TypeScale } from '../../constants/type_scale';
 import RecipeCard from '../../components/recipe_card/recipe_card';
 import useDebounce from '../../hooks/debounce';
+import { TextStrings } from '../../constants/text_strings';
 
-const search_icon_size = 20;
-const search_icon_color = Colors.accentColor;
-const cursor_Color = 'black';
-const placeholder = 'search by ingredient';
-const indicator_color = Colors.accentColor;
-const indicator_size = 50;
 const marginTop = 200;
 export default function SearchScreen() {
     const [Meals, setMeals] = useState([]);
@@ -55,7 +50,7 @@ export default function SearchScreen() {
 
     return (
         <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-            <View style={{ flex: 0.15 }}>
+            <View style={{ flex: 0.2 }}>
                 <Text
                     style={{
                         marginVertical: 10,
@@ -66,21 +61,19 @@ export default function SearchScreen() {
                 </Text>
                 <View style={styles.search_field}>
                     <TextInput
-                        placeholder={placeholder}
-                        cursorColor={cursor_Color}
+                        placeholder={TextStrings.search_placeholder}
+                        cursorColor={Colors.darkColor}
                         value={ingredient}
                         onChangeText={setIngredient}
                     />
-                    <AntDesign name="search1" size={search_icon_size} color={search_icon_color} />
+                    <AntDesign name="search1" size={Sizes.search_icon_size} color={Colors.accentColor} />
                 </View>
             </View>
-            <View style={{ flex: 0.75, marginTop: 10 }}>
+            <View style={{ flex: 0.8, marginTop: 10 }}>
                 {loading ? (
-                    <ActivityIndicator color={indicator_color} size={indicator_size} style={{ marginTop }} />
+                    <ActivityIndicator color={Colors.accentColor} size={Sizes.indicator_size} style={{ marginTop }} />
                 ) : Meals.length > 0 ? (
-                    <MasonryList
-                        style={{ justifyContent: 'center', alignItems: "center" }}
-
+                    <FlatList
                         data={Meals}
                         showsVerticalScrollIndicator={false}
                         numColumns={2}

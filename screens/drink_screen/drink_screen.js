@@ -73,7 +73,6 @@ export default function DrinkScreen() {
                 }}
               />
             </Animated.View> :
-
             <ActivityIndicator color={indicator_color} size={indicator_size} />
         }
       </View>
