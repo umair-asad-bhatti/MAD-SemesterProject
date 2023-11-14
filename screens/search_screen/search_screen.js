@@ -17,7 +17,7 @@ import { TypeScale } from '../../constants/type_scale';
 import RecipeCard from '../../components/recipe_card/recipe_card';
 import useDebounce from '../../hooks/debounce';
 import { TextStrings } from '../../constants/text_strings';
-
+import { mealdb_searchBy_ingredients_api } from '../../constants/api';
 const marginTop = 200;
 export default function SearchScreen() {
     const [Meals, setMeals] = useState([]);
@@ -30,7 +30,7 @@ export default function SearchScreen() {
             setLoading(true);
             try {
                 const data = await getData(
-                    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${debouncedIngredient}`
+                    mealdb_searchBy_ingredients_api + debouncedIngredient
                 );
                 if (data.meals) {
                     setMeals(data.meals);

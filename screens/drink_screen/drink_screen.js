@@ -38,10 +38,10 @@ export default function DrinkScreen() {
   }, [activeCategory])
   return (
     <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-      <View style={{ flex: 0.35 }}>
+      <View style={{ flex: 0.3, index: 10000 }}>
 
         <Text style={[TypeScale.h2Headline, { color: Colors.darkColor }]}>Lets Explore the Drinks of your <Text style={{ color: Colors.accentColor }}>Taste</Text></Text>
-        <Text style={[TypeScale.h6Headline, { color: Colors.accentColor, marginVertical: 5 }]}>Drinks</Text>
+
         <FlatList
           data={categories}
           horizontal={true}
@@ -55,7 +55,7 @@ export default function DrinkScreen() {
           }}
         />
       </View>
-      <View style={{ flex: 0.7 }}>
+      <View style={{ flex: 0.8 }}>
         {
           Drinks.length > 0 && categories.length > 0 && !loading ?
             <Animated.View entering={FadeInDown.delay(200)}>

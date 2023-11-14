@@ -38,6 +38,9 @@ const Sizes = {
 
     // Loading indicator size
     indicator_size: 50,
+    // category card sizes
+    CategoryCardSize: 60,
+    category_img_size: 40
 };
 
 export { Sizes };

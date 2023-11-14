@@ -3,8 +3,6 @@ import { TouchableOpacity, Image, Text } from 'react-native';
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 
-const CategoryCardSize = 60
-const img_size = 40
 
 const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, activeCategory }) => {
     console.log(categoryName);
@@ -13,9 +11,9 @@ const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, ac
             margin: 5,
             justifyContent: 'center',
             alignItems: 'center',
-            width: CategoryCardSize,
-            height: CategoryCardSize,
-            borderRadius: CategoryCardSize,
+            width: Sizes.CategoryCardSize,
+            height: Sizes.CategoryCardSize,
+            borderRadius: Sizes.CategoryCardSize,
             backgroundColor: activeCategory === categoryName ? Colors.accentColor : Colors.lightColor,
             shadowColor: "#000",
             shadowOffset: {
@@ -27,10 +25,10 @@ const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, ac
             elevation: 4,
         }}>
             <Image
-                style={{ borderRadius: img_size }}
+                style={{ borderRadius: Sizes.category_img_size }}
                 source={{ uri: categoryImg }}
-                width={img_size}
-                height={img_size}
+                width={Sizes.category_img_size}
+                height={Sizes.category_img_size}
             />
 
         </TouchableOpacity>
