@@ -2,7 +2,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import HomeScreen from "../home_screen/home_screen";
 import DrinkScreen from "../drink_screen/drink_screen";
 import SearchScreen from "../search_screen/search_screen";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import AccountScreen from "../accounts_screen/account_screen";
 import { Colors } from "../../constants/colors";
 const icon_size = 25
@@ -41,7 +41,7 @@ const DashboardScreen = () => {
                     tabBarColor: 'red',
                     tabBarLabel: 'Drink',
                     tabBarIcon: ({ focused, color }) => (
-                        <AntDesign name="antdesign" color={focused ? 'black' : color} size={icon_size} />
+                        <FontAwesome5 name="wine-bottle" color={focused ? 'black' : color} size={icon_size} />
                     ),
                 }}
             />

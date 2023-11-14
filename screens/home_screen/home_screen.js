@@ -8,7 +8,6 @@ import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
 import { getData } from '../../utils'
 import { mealdb_category_api, mealdb_catMeal_api } from '../../constants/api'
-import MasonryList from '@react-native-seoul/masonry-list';
 import { ImageStrings } from "../../constants/image_strings";
 
 export default function HomeScreen() {
