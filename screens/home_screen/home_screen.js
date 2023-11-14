@@ -9,7 +9,7 @@ import { TypeScale } from '../../constants/type_scale'
 import { getData } from '../../utils'
 import { mealdb_category_api, mealdb_catMeal_api } from '../../constants/api'
 import MasonryList from '@react-native-seoul/masonry-list';
-import {ImageStrings} from "../../constants/image_strings";
+import { ImageStrings } from "../../constants/image_strings";
 
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
@@ -66,7 +66,8 @@ export default function HomeScreen() {
             <View style={styles.footerView}>
                 {
                     Recipes.length > 0 && categories.length > 0 && !loading ?
-                        <MasonryList
+                        <FlatList
+                            columnWrapperStyle={{ justifyContent: 'center' }}
                             data={Recipes}
                             showsVerticalScrollIndicator={false}
                             numColumns={2}
@@ -91,10 +92,10 @@ const styles = StyleSheet.create({
         padding: Sizes.screenPadding,
     },
     headerView: {
-        flex: 0.3,
+        flex: 0.35,
         width: '100%',
     },
     footerView: {
-        flex: 0.6,
+        flex: 0.7,
     },
 });

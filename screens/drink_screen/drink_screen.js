@@ -38,7 +38,7 @@ export default function DrinkScreen() {
   }, [activeCategory])
   return (
     <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-      <View style={{ flex: 0.28 }}>
+      <View style={{ flex: 0.35 }}>
 
         <Text style={[TypeScale.h2Headline, { color: Colors.darkColor }]}>Lets Explore the Drinks of your <Text style={{ color: Colors.accentColor }}>Taste</Text></Text>
         <Text style={[TypeScale.h6Headline, { color: Colors.accentColor, marginVertical: 5 }]}>Drinks</Text>
@@ -55,40 +55,25 @@ export default function DrinkScreen() {
           }}
         />
       </View>
-      <View style={{ flex: 0.6 }}>
+      <View style={{ flex: 0.7 }}>
         {
           Drinks.length > 0 && categories.length > 0 && !loading ?
-            // <Animated.View entering={FadeInDown.delay(200)}>
-            //   <FlatList
-            //     data={Drinks}
-            //     showsVerticalScrollIndicator={false}
-            //     numColumns={2}
-            //     columnWrapperStyle={{ justifyContent: 'space-between' }}
-            //     renderItem={({ item }) => {
-            //       const itemName = item.strDrink
-            //       const itemImg = item.strDrinkThumb
-            //       const itemId = item.idDrink
-            //       const category = 'drink'
-            //       return <recipe_card itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
+            <Animated.View entering={FadeInDown.delay(200)}>
+              <FlatList
+                data={Drinks}
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                renderItem={({ item }) => {
+                  const itemName = item.strDrink
+                  const itemImg = item.strDrinkThumb
+                  const itemId = item.idDrink
+                  const category = 'drink'
+                  return <View style={{ margin: 5 }}><RecipeCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
+                }}
+              />
+            </Animated.View> :
 
-            //     }}
-            //   />
-            // </Animated.View> :
-            <MasonryList
-              style={{ justifyContent: 'center', alignItems: "center" }}
-
-              data={Drinks}
-              showsVerticalScrollIndicator={false}
-              numColumns={2}
-              renderItem={({ item, index }) => {
-
-                const itemName = item.strDrink
-                const itemImg = item.strDrinkThumb
-                const itemId = item.idDrink
-                const category = 'drink'
-                return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
-              }}
-            /> :
             <ActivityIndicator color={indicator_color} size={indicator_size} />
         }
       </View>

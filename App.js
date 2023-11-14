@@ -5,6 +5,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Colors } from "./constants/colors";
 import Loading from "./components/loading/Loading";
+import { PaperProvider, MD3LightTheme as DefaultTheme, } from 'react-native-paper';
+import { lightTheme } from './colors';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -35,8 +37,8 @@ export default function App() {
     return <Loading />;
   }
   return (
-    <>
+    <PaperProvider theme={lightTheme}>
       <NavigationService />
-    </>
+    </PaperProvider>
   );
 }

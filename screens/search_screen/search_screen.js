@@ -10,7 +10,7 @@ import {
 import MasonryList from '@react-native-seoul/masonry-list';
 import React, { useState, useEffect } from 'react';
 import { getData } from '../../utils';
-import {AntDesign, FontAwesome5} from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Sizes } from '../../constants/sizes';
 import { Colors } from '../../constants/colors';
 import { TypeScale } from '../../constants/type_scale';
@@ -38,13 +38,10 @@ export default function SearchScreen() {
                     `https://www.themealdb.com/api/json/v1/1/filter.php?i=${debouncedIngredient}`
                 );
                 if (data.meals) {
-
                     setMeals(data.meals);
-
                 }
                 else {
                     setMeals([])
-
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);

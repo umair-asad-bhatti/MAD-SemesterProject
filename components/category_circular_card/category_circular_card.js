@@ -1,13 +1,13 @@
 import React from 'react';
-import {TouchableOpacity, Image, Text} from 'react-native';
-import {Colors} from '../../constants/colors'
-import {Sizes} from '../../constants/sizes'
+import { TouchableOpacity, Image, Text } from 'react-native';
+import { Colors } from '../../constants/colors'
+import { Sizes } from '../../constants/sizes'
 
 const CategoryCardSize = 60
 const img_size = 40
 
-const CategoryCircularCard = ({categoryName, categoryImg, setActiveCategory, activeCategory}) => {
-
+const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, activeCategory }) => {
+    console.log(categoryName);
     return <>
         <TouchableOpacity onPress={() => setActiveCategory(categoryName)} style={{
             margin: 5,
@@ -27,13 +27,14 @@ const CategoryCircularCard = ({categoryName, categoryImg, setActiveCategory, act
             elevation: 4,
         }}>
             <Image
-                style={{borderRadius: img_size}}
-                source={{uri: categoryImg}}
+                style={{ borderRadius: img_size }}
+                source={{ uri: categoryImg }}
                 width={img_size}
                 height={img_size}
             />
+
         </TouchableOpacity>
-        <Text style={{textAlign: "center", opacity: 0.7, fontSize: Sizes.body2}}>{categoryName}</Text>
+        <Text style={{ textAlign: "center", opacity: 0.7, fontSize: Sizes.body2 }}>{categoryName}</Text>
     </>
 }
 

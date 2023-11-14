@@ -1,35 +1,36 @@
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeScreen from "../home_screen/home_screen";
 import DrinkScreen from "../drink_screen/drink_screen";
 import SearchScreen from "../search_screen/search_screen";
-import {AntDesign, FontAwesome5,} from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import AccountScreen from "../accounts_screen/account_screen";
-import {Colors} from "../../constants/colors";
-
+import { Colors } from "../../constants/colors";
+const icon_size = 25
 const Tab = createMaterialBottomTabNavigator();
 
 const DashboardScreen = () => {
     return (
         <Tab.Navigator
+            theme={{ colors: { primary: 'red' } }}
+            shifting={true}
             initialRouteName="HomeScreen"
             backBehavior='initialRoute'
             activeColor={Colors.lightColor}
             inactiveColor={Colors.lightColor}
             barStyle={{
                 backgroundColor: Colors.backgroundColor,
-                indicatorStyle: {
-                    backgroundColor: 'red',
-                    height: '100%',
-                },
             }}
         >
             <Tab.Screen
                 name="HomeScreen"
                 component={HomeScreen}
+
                 options={{
+                    // tabBarColor: 'red',
                     tabBarLabel: 'Home',
-                    tabBarIcon: ({color}) => (
-                        <AntDesign name="home" color={color} size={26}/>
+                    tabBarIcon: ({ focused, color }) => (
+                        <AntDesign name="home" color={focused ? 'black' : color} size={icon_size} />
+
                     ),
                 }}
             />
@@ -37,9 +38,10 @@ const DashboardScreen = () => {
                 name="DrinkScreen"
                 component={DrinkScreen}
                 options={{
+                    tabBarColor: 'red',
                     tabBarLabel: 'Drink',
-                    tabBarIcon: ({color}) => (
-                        <FontAwesome5 name="wine-bottle" color={color} size={26}/>
+                    tabBarIcon: ({ focused, color }) => (
+                        <AntDesign name="antdesign" color={focused ? 'black' : color} size={icon_size} />
                     ),
                 }}
             />
@@ -48,8 +50,8 @@ const DashboardScreen = () => {
                 component={SearchScreen}
                 options={{
                     tabBarLabel: 'Search',
-                    tabBarIcon: ({color}) => (
-                        <AntDesign name="search1" color={color} size={26}/>
+                    tabBarIcon: ({ focused, color }) => (
+                        <AntDesign name="search1" color={focused ? 'black' : color} size={icon_size} />
                     ),
                 }}
             />
@@ -58,8 +60,8 @@ const DashboardScreen = () => {
                 component={AccountScreen}
                 options={{
                     tabBarLabel: 'Profile',
-                    tabBarIcon: ({color}) => (
-                        <AntDesign name="user" color={color} size={26}/>
+                    tabBarIcon: ({ focused, color }) => (
+                        <AntDesign name="user" color={focused ? 'black' : color} size={icon_size} />
                     ),
                 }}
             />
