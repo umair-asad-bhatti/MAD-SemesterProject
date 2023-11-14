@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 
 const Loading = () => {
     return (
@@ -8,7 +8,5 @@ const Loading = () => {
         </View>
     );
 }
-
-const styles = StyleSheet.create({})
 
 export default Loading;

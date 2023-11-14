@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image, ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { Colors } from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
@@ -8,6 +7,7 @@ import { getData } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { TypeScale } from '../../constants/type_scale'
+
 const image_size = 300
 const heart_size = 50
 const heart_bg = '#00755E'

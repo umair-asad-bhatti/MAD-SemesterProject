@@ -1,4 +1,3 @@
-// showss the cokctails
 import { View, Text, FlatList, ActivityIndicator, Image, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { getData } from '../../utils'
@@ -6,13 +5,14 @@ import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
 import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
-import RecipeCard from "../../components/RecipeCard/recipe_card";
-import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
+import RecipeCard from "../../components/recipe_card/recipe_card";
+import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
 import { drinkdb_catDrink_api, drinkdb_category_api } from '../../constants/api'
 import MasonryList from '@react-native-seoul/masonry-list';
 const indicator_color = Colors.accentColor;
 const indicator_size = 50;
-export default function Drink_Screen() {
+
+export default function DrinkScreen() {
   const [categories, setCategories] = useState([])
   const [activeCategory, setActiveCategory] = useState('ordinary drink')
   const [Drinks, setDrinks] = useState([])
@@ -69,7 +69,7 @@ export default function Drink_Screen() {
             //       const itemImg = item.strDrinkThumb
             //       const itemId = item.idDrink
             //       const category = 'drink'
-            //       return <RecipeCard itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
+            //       return <recipe_card itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} />
 
             //     }}
             //   />

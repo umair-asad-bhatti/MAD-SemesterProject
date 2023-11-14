@@ -36,8 +36,30 @@ const CustomStyles = {
         alignItems: 'center',
         justifyContent: 'center',
     },
+
     buttonTextColor: {
         color: Colors.buttonTextColor,
+    },
+
+    //for social media button
+    socialMediaButton: {
+        backgroundColor: 'transparent',
+        height: Sizes.buttonHeight,
+        borderWidth: 1.0,
+        borderColor: Colors.lightColor,
+        borderRadius: Sizes.buttonRadius,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    socialMediaButtonImage: {
+        height: Sizes.buttonHeight * 0.5,
+        width: Sizes.buttonHeight * 0.5,
+    },
+
+    socialMediaButtonText: {
+        ...TypeScale.button,
+        color: Colors.lightColor,
     },
 
 
@@ -50,7 +72,7 @@ const CustomStyles = {
         borderColor: Colors.lightColor,
         marginBottom: Sizes.formHeight,
         padding: Sizes.textFormFieldPadding,
-    }
+    },
 };
 
 export {CustomStyles};

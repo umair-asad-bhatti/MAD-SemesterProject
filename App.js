@@ -32,7 +32,7 @@ export default function App() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return <Loading />; // or render a custom loading screen
+    return <Loading />;
   }
   return (
     <>

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { CustomStyles } from '../../constants/custom_styles'
 import { TypeScale } from '../../constants/type_scale'

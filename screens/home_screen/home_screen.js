@@ -1,23 +1,22 @@
-
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
-import Animated, { FadeInDown, FadeInLeft, FadeIn } from 'react-native-reanimated'
-import RecipeCard from "../../components/RecipeCard/recipe_card";
-import CategoryCircularCard from '../../components/categoryCircularCard/categoryCircularCard'
+import { ActivityIndicator, FlatList, Image, Text, View, StyleSheet } from 'react-native'
+import Animated, { FadeInLeft } from 'react-native-reanimated'
+import RecipeCard from "../../components/recipe_card/recipe_card";
+import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
 import { getData } from '../../utils'
 import { mealdb_category_api, mealdb_catMeal_api } from '../../constants/api'
 import MasonryList from '@react-native-seoul/masonry-list';
-const logo_size = 50
-const indicator_color = Colors.accentColor;
-const indicator_size = 50;
+import {ImageStrings} from "../../constants/image_strings";
+
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
     const [Recipes, setRecipes] = useState([])
     const [activeCategory, setActiveCategory] = useState('beef')
     const [loading, setLoading] = useState(false);
+
     // handling the active category state
     useEffect(() => {
         const getCategories = async () => {
@@ -25,8 +24,7 @@ export default function HomeScreen() {
             const data = await getData(mealdb_category_api)
             setCategories(data.categories)
         }
-
-        getCategories()
+        getCategories().then(() => null);
     }, [])
 
     // fetch the data from api whenever category changes
@@ -36,19 +34,20 @@ export default function HomeScreen() {
             setRecipes(data.meals)
             setLoading(false)
         }
-        getRecipeByCategory()
+        getRecipeByCategory().then(() => null);
     }, [activeCategory])
 
 
     useEffect(() => {
         setLoading(true)
     }, [activeCategory])
+
     return (
-        <View style={{ padding: Sizes.screenPadding, flex: 1 }}>
-            <View style={{ flex: 0.30 }}>
+        <View style={styles.mainView}>
+            <View style={styles.headerView}>
                 <View style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
                     <Text style={{ ...TypeScale.h4Headline, color: Colors.accentColor, fontWeight: 'bold' }}>Recipe At Door</Text>
-                    <Image style={{ width: logo_size, height: logo_size, borderRadius: logo_size }} source={require("../../assets/download.jpg")} />
+                    <Image style={{ width: Sizes.homeScreenMainLogoSize, height: Sizes.homeScreenMainLogoSize, borderRadius: Sizes.homeScreenMainLogoSize }} source={ImageStrings.mainLogo} />
                 </View>
                 <Text style={[TypeScale.h2Headline, { color: Colors.darkColor }]}>Lets Explore the Recipes of your <Text style={{ color: Colors.accentColor }}>Taste</Text></Text>
                 <FlatList
@@ -64,10 +63,9 @@ export default function HomeScreen() {
                     }}
                 />
             </View>
-            <View style={{ flex: 0.6 }}>
+            <View style={styles.footerView}>
                 {
                     Recipes.length > 0 && categories.length > 0 && !loading ?
-
                         <MasonryList
                             data={Recipes}
                             showsVerticalScrollIndicator={false}
@@ -79,14 +77,24 @@ export default function HomeScreen() {
                                 const category = 'meals'
                                 return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
                             }}
-                        />
-
-
-                        :
-                        <ActivityIndicator size={indicator_size} color={indicator_color} />
+                        /> :
+                        <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
                 }
-
             </View>
         </View >
     )
 }
+
+const styles = StyleSheet.create({
+    mainView: {
+        flex: 1,
+        padding: Sizes.screenPadding,
+    },
+    headerView: {
+        flex: 0.3,
+        width: '100%',
+    },
+    footerView: {
+        flex: 0.6,
+    },
+});

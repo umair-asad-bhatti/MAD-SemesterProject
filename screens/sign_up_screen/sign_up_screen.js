@@ -16,6 +16,8 @@ import {TypeScale} from "../../constants/type_scale";
 import {ImageStrings} from "../../constants/image_strings";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {CustomStyles} from "../../constants/custom_styles";
+import SocialMediaButton from "../../components/social_media_button/social_media_button";
+import Button from "../../components/button/button";
 
 createNativeStackNavigator();
 
@@ -81,9 +83,10 @@ const SignUpScreen = ({navigation}) => {
                     onChangeText={(text) => setConfirmPassword(text)}
                     keyboardAppearance='light'
                 />
-                <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-                    <Text style={TypeScale.button}>{TextStrings.signUp}</Text>
-                </TouchableOpacity>
+                <Button text={TextStrings.signUp} onButtonPress={handleSignUp}/>
+                <View style={styles.formHeight}></View>
+                <SocialMediaButton onButtonPress={handleSignUp} text={TextStrings.continueWithGoogle}
+                                   source={ImageStrings.googleLogo}/>
                 <TouchableOpacity onPress={goToLoginScreen}>
                     <Text style={styles.footerText}>{TextStrings.alreadyRegistered}</Text>
                 </TouchableOpacity>
@@ -105,9 +108,8 @@ const styles = StyleSheet.create({
         ...CustomStyles.input,
         width: '100%',
     },
-    button: {
-        ...CustomStyles.button,
-        width: '100%',
+    formHeight: {
+        height: Sizes.formHeight,
     },
     footerText: {
         ...TypeScale.subtitle2,

@@ -29,6 +29,10 @@ const Sizes = {
     // text-form-field sizes
     textFormFieldRadius: 8.0,
     textFormFieldPadding: 15.0,
+
+    // logos sizes
+    homeScreenMainLogoSize : 50.0,
+    screenIndicatorSize: 50.0,
 };
 
 export { Sizes };

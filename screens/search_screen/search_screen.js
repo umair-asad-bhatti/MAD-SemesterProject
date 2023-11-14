@@ -1,4 +1,3 @@
-
 import {
     View,
     Text,
@@ -11,21 +10,21 @@ import {
 import MasonryList from '@react-native-seoul/masonry-list';
 import React, { useState, useEffect } from 'react';
 import { getData } from '../../utils';
-import { FontAwesome5 } from '@expo/vector-icons';
+import {AntDesign, FontAwesome5} from '@expo/vector-icons';
 import { Sizes } from '../../constants/sizes';
 import { Colors } from '../../constants/colors';
 import { TypeScale } from '../../constants/type_scale';
-import Animated, { FlipInYLeft } from 'react-native-reanimated';
-import RecipeCard from '../../components/RecipeCard/recipe_card';
+import RecipeCard from '../../components/recipe_card/recipe_card';
 import useDebounce from '../../hooks/debounce';
+
 const search_icon_size = 20;
 const search_icon_color = Colors.accentColor;
-const curosr_Color = 'black';
+const cursor_Color = 'black';
 const placeholder = 'search by ingredient';
 const indicator_color = Colors.accentColor;
 const indicator_size = 50;
 const marginTop = 200;
-export default function Search_Screen() {
+export default function SearchScreen() {
     const [Meals, setMeals] = useState([]);
     const [ingredient, setIngredient] = useState('');
     const [loading, setLoading] = useState(false);
@@ -71,11 +70,11 @@ export default function Search_Screen() {
                 <View style={styles.search_field}>
                     <TextInput
                         placeholder={placeholder}
-                        cursorColor={curosr_Color}
+                        cursorColor={cursor_Color}
                         value={ingredient}
                         onChangeText={setIngredient}
                     />
-                    <FontAwesome5 name="search" size={search_icon_size} color={search_icon_color} />
+                    <AntDesign name="search1" size={search_icon_size} color={search_icon_color} />
                 </View>
             </View>
             <View style={{ flex: 0.75, marginTop: 10 }}>

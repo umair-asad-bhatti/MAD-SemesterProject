@@ -18,6 +18,7 @@ import { ImageStrings } from "../../constants/image_strings";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CustomStyles } from "../../constants/custom_styles";
 import Button from '../../components/button/button';
+import SocialMediaButton from "../../components/social_media_button/social_media_button";
 
 createNativeStackNavigator();
 const LoginScreen = ({ navigation }) => {
@@ -69,6 +70,8 @@ const LoginScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <Button text={TextStrings.login} onButtonPress={handleLogin} />
+                <View style={styles.formHeight}></View>
+                <SocialMediaButton onButtonPress={handleLogin} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo}/>
                 <TouchableOpacity onPress={goToRegisterScreen}>
                     <Text style={styles.footerText}>{TextStrings.notRegistered}</Text>
                 </TouchableOpacity>
@@ -99,6 +102,9 @@ const styles = StyleSheet.create({
     button: {
         ...CustomStyles.button,
         width: '100%',
+    },
+    formHeight: {
+        height: Sizes.formHeight,
     },
     footerText: {
         ...TypeScale.subtitle2,
