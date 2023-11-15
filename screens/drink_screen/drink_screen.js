@@ -1,16 +1,14 @@
-import { View, Text, FlatList, ActivityIndicator, Image, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { getData } from '../../utils'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, FlatList, Text, View } from 'react-native'
+import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
+import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
+import RecipeCard from "../../components/recipe_card/recipe_card"
+import { drinkdb_catDrink_api, drinkdb_category_api } from '../../constants/api'
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
-import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
-import RecipeCard from "../../components/recipe_card/recipe_card";
-import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
-import { drinkdb_catDrink_api, drinkdb_category_api } from '../../constants/api'
-import MasonryList from '@react-native-seoul/masonry-list';
-const indicator_color = Colors.accentColor;
-const indicator_size = 50;
+import { getData } from '../../utils'
+
 
 export default function DrinkScreen() {
   const [categories, setCategories] = useState([])
@@ -73,7 +71,7 @@ export default function DrinkScreen() {
                 }}
               />
             </Animated.View> :
-            <ActivityIndicator color={indicator_color} size={indicator_size} />
+            <ActivityIndicator color={Colors.accentColor} size={indicator_size} />
         }
       </View>
     </View >

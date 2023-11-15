@@ -25,13 +25,11 @@ const DashboardScreen = () => {
             <Tab.Screen
                 name="HomeScreen"
                 component={HomeScreen}
-
                 options={{
                     // tabBarColor: 'red',
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ focused, color }) => (
                         <AntDesign name="home" color={focused ? 'black' : color} size={Sizes.icon_size} />
-
                     ),
                 }}
             />
