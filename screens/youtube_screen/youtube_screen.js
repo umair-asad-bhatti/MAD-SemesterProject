@@ -8,7 +8,7 @@ export default function Youtube_Screen({ route }) {
     useEffect(() => {
         navigation.setOptions({ title: mealName })
     }, [])
-    console.log(youtubeId);
+
     return (
         <WebView
             source={{ uri: youtubeId }}
