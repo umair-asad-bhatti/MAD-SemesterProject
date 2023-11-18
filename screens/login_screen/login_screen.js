@@ -19,15 +19,37 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CustomStyles } from "../../constants/custom_styles";
 import Button from '../../components/button/button';
 import SocialMediaButton from "../../components/social_media_button/social_media_button";
+import { supabase } from '../Client';
 
 createNativeStackNavigator();
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const handleLogin = () => {
-        console.log('Logging in with', { email, password });
-        navigation.replace("Dashboard");
-    };
+    const handleLogin = async () => {
+        if (!email || !password) {
+          alert('Please fill in all fields');
+          return;
+        }
+      
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+          });
+      
+          if (error) {
+            alert('Invalid email or password. Please try again.');
+            console.error(error);
+            return;
+          }
+      
+          // User successfully authenticated
+          console.log('Logging in with', { email, password });
+          navigation.replace("Dashboard");
+        } catch (error) {
+          console.error('Error signing in:', error.message);
+        }
+      };
 
     const forgetPasswordHandle = () => {
         console.log('Taking user to forget password screen');
@@ -37,6 +59,24 @@ const LoginScreen = ({ navigation }) => {
     const goToRegisterScreen = () => {
         navigation.replace("SignUp");
     };
+    const googleSignUp = async () => {
+        try {
+          const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+           
+          });
+      
+          if (error) {
+            console.error('Google Sign-In error:', error.message);
+          } else {
+            console.log('Google Sign-In success:', data);
+           
+            navigation.replace('Dashboard');
+          }
+        } catch (error) {
+          console.error('Error during Google Sign-In:', error.message);
+        }
+      };
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.container}>
@@ -71,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
                 </View>
                 <Button text={TextStrings.login} onButtonPress={handleLogin} />
                 <View style={styles.formHeight}></View>
-                <SocialMediaButton onButtonPress={handleLogin} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo}/>
+                <SocialMediaButton onButtonPress={googleSignUp} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo}/>
                 <TouchableOpacity onPress={goToRegisterScreen}>
                     <Text style={styles.footerText}>{TextStrings.notRegistered}</Text>
                 </TouchableOpacity>

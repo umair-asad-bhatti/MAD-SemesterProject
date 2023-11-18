@@ -7,14 +7,17 @@ import {CustomStyles} from "../../constants/custom_styles";
 import {Icons} from "../../constants/icons";
 import TextIconButtonView from "../../components/text_icon_button_view/text_icon_button_view";
 import {ImageStrings} from "../../constants/image_strings";
+import { supabase } from '../Client';
 createNativeStackNavigator();
 
 const EmailVerificationScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
-    const continueButtonHandle = () => {
-        console.log('Taking user to Dashboard Screen');
-        // navigation.navigate("Login");
-    }
+    
+    const continueButtonHandle = async () => {
+  
+};
+
+
 
     return (
         <View style={styles.container}>
@@ -32,6 +35,16 @@ const EmailVerificationScreen = ({navigation}) => {
                 keyboardAppearance='light'
                 keyboardType={'email-address'}
             />
+              <TextInput
+        style={styles.input}
+        placeholder="Verification Token"
+        placeholderTextColor={Colors.lightColor}
+        cursorColor={Colors.lightColor}
+        value={token}
+        onChangeText={(text) => setToken(text)} // Update the token state
+        keyboardAppearance="light"
+        secureTextEntry={true} // You might want to make this secure if it's a sensitive input
+      />
             <TouchableOpacity style={styles.button} onPress={continueButtonHandle}>
                 <TextIconButtonView textString={TextStrings.continue} icon={Icons.rightArrowIcon}/>
             </TouchableOpacity>

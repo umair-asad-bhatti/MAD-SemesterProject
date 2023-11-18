@@ -7,15 +7,14 @@ import {CustomStyles} from "../../constants/custom_styles";
 import {Icons} from "../../constants/icons";
 import TextIconButtonView from "../../components/text_icon_button_view/text_icon_button_view";
 import {ImageStrings} from "../../constants/image_strings";
+import { supabase } from '../Client';
 createNativeStackNavigator();
 
 const ForgetPasswordScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
-    const continueButtonHandle = () => {
-        console.log('Entered Email : ', email);
-        console.log('Taking user to Login Screen');
-        navigation.navigate("Login");
-    }
+    const continueButtonHandle = async () => {
+       
+      };
 
     return (
         <View style={styles.container}>
