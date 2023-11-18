@@ -9,7 +9,7 @@ import TextIconButtonView from "../../components/text_icon_button_view/text_icon
 import { ImageStrings } from "../../constants/image_strings";
 import { supabase } from '../Client';
 
-createNativeStackNavigator();
+createNativeStackNagit vigator();
 
 const UpdatePassword = ({ route, navigation }) => {
   const { email } = route.params;
