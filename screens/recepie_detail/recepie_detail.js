@@ -5,37 +5,72 @@ import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
 import { getData } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
-import { FontAwesome5 } from '@expo/vector-icons'
+import { FontAwesome5, AntDesign } from '@expo/vector-icons'
 import { TypeScale } from '../../constants/type_scale'
 import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const image_size = 300
-const heart_size = 50
+const heart_size = 60
 const heart_bg = '#00755E'
 const youtubeicon_size = 25
 const youtubeicon_color = Colors.accentColor
 export default function RecipeDetailScreen({ route }) {
 
   const { itemId, category } = route.params
-  const { session, setSession } = useContext(UserContext)
-  const { id } = session.user
-  const [MealDetails, setMealDetails] = useState({}) //store the data from api
   const navigation = useNavigation()
+
+  //---------------states--------------------------------------------
+  const { session, setSession } = useContext(UserContext)
+  const [clicked, setClicked] = useState(false)
+  const [likes, setLikes] = useState(0)
+  const [MealDetails, setMealDetails] = useState({}) //store the data from api
   //parsed data from api
   const [data, setData] = useState({
     mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null
   });
-  //checking the login status of user
+  //-----------------------end states--------------------------------
 
 
+  //fetch the likes on first render
+  useEffect(() => {
+    const getClickState = async () => {
+      const state = await AsyncStorage.getItem(itemId)
+      if (state == 'clicked')
+        setClicked(true)
+      else
+        setClicked(false)
+    }
+    const getLikes = async () => {
+
+      const { data } = await supabase.from("Recipes_Liked").select('likes').eq('Recipe_id', itemId)
+      if (data.length > 0)
+        setLikes(data[0].likes)
+      else
+        setLikes(0)
+    }
+    getLikes()
+    getClickState()
+
+    //now subsribing for realtime changes
+    supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+        },
+        (payload) => setLikes(payload.new.likes)
+      )
+      .subscribe()
+  }, [])
   //fetching data from api
   useEffect(() => {
     const getMealDetails = async () => {
-
       const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.meals[0])
-
     }
     const getCocktailDetails = async () => {
 
@@ -96,9 +131,43 @@ export default function RecipeDetailScreen({ route }) {
         },
         { text: 'Login', onPress: () => navigation.navigate("Login") },
       ])
-
   }
   const addRecipeToFavourite = async () => {
+    if (session) {
+      const { data } = await supabase.from('Recipes_Liked').select().eq('Recipe_id', itemId)
+      if (data.length > 0) {
+        await supabase.rpc(clicked ? 'decrement' : 'increment', { row_id: itemId })
+      }
+      else {
+        await supabase.from('Recipes_Liked').insert({ Recipe_id: itemId, likes: 1 })
+      }
+
+      //HANDLE THE STATE OF CLIKED 
+      if (clicked == false) {
+
+        await AsyncStorage.setItem(itemId, 'clicked')
+        setClicked(true)
+      }
+      else {
+
+        await AsyncStorage.removeItem(itemId)
+        setClicked(false)
+      }
+
+
+    }
+    else {
+      Alert.alert('Login Required', 'You must Loggin to like Recipe', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        { text: 'Login', onPress: () => navigation.navigate("Login") },
+      ])
+    }
+
+
     //implement the add recipe to favourites using supabase database
   }
   return (
@@ -122,13 +191,15 @@ export default function RecipeDetailScreen({ route }) {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={addRecipeToFavourite} style={{
-          zIndex: 100, borderRadius: 5, position: 'relative', top: 20, left: 30, width: heart_size, height: heart_size, justifyContent: 'center', alignItems: "center", backgroundColor: heart_bg
+          zIndex: 1000, borderRadius: 5, position: 'relative', top: 20, left: 30, width: heart_size, height: heart_size, justifyContent: 'center', alignItems: "center", backgroundColor: heart_bg
         }} >
-          < FontAwesome5
-            name='heart'
+          < AntDesign
+            name={clicked ? 'heart' : 'hearto'}
+
             color={Colors.accentColor}
             size={Sizes.h3Headline}
           />
+          <Text style={{ color: 'white' }}>{likes}</Text>
         </TouchableOpacity>
         <ScrollView style={{ backgroundColor: Colors.accentColor, borderTopLeftRadius: 40, padding: 20 }}>
           <Text style={{ marginTop: 10, color: Colors.lightColor }}>{data.mealDescription}</Text>
