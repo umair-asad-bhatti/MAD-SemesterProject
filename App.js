@@ -7,6 +7,7 @@ import { Colors } from "./constants/colors";
 import Loading from "./components/loading/Loading";
 import { PaperProvider } from 'react-native-paper';
 import { lightTheme } from './colors';
+import { UserProvider } from './services/context/usercontext';
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -38,7 +39,9 @@ export default function App() {
   }
   return (
     <PaperProvider theme={lightTheme}>
-      <NavigationService />
+      <UserProvider>
+        <NavigationService />
+      </UserProvider>
     </PaperProvider>
   );
 }

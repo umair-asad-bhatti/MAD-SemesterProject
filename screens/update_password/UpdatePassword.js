@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, StatusBar, Text, TouchableOpacity, Image, Dimensions, TextInput, Alert } from 'react-native';
 import { Colors } from '../../constants/colors';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TextStrings } from "../../constants/text_strings";
 import { CustomStyles } from "../../constants/custom_styles";
 import { Icons } from "../../constants/icons";
 import TextIconButtonView from "../../components/text_icon_button_view/text_icon_button_view";
 import { ImageStrings } from "../../constants/image_strings";
-import { supabase } from '../Client';
-
-createNativeStackNavigator();
+import { supabase } from '../../services/supabase/client';;
 
 const UpdatePassword = ({ route, navigation }) => {
   const { email } = route.params;
@@ -41,7 +38,7 @@ const UpdatePassword = ({ route, navigation }) => {
 
       // Password updated successfully
       Alert.alert('Success', 'Password updated successfully.');
-      navigation.replace('Login'); 
+      navigation.replace('Login');
     } catch (error) {
       console.error('Error during password update:', error.message);
     }

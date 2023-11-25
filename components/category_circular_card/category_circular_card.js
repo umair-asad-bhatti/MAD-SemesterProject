@@ -5,7 +5,7 @@ import { Sizes } from '../../constants/sizes'
 
 
 const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, activeCategory }) => {
-    console.log(categoryName);
+
     return <>
         <TouchableOpacity onPress={() => setActiveCategory(categoryName)} style={{
             margin: 5,

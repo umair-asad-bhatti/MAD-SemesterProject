@@ -19,7 +19,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CustomStyles } from "../../constants/custom_styles";
 import SocialMediaButton from "../../components/social_media_button/social_media_button";
 import Button from "../../components/button/button";
-import { supabase } from "../Client";
+import { supabase } from "../../services/supabase/client";
 
 createNativeStackNavigator();
 
@@ -75,7 +75,7 @@ const SignUpScreen = ({ navigation }) => {
         console.error(error);
         return;
       }
-     
+
       //alert("Confirm Your Email Address");
       console.log("Signing Up with", {
         username,
@@ -83,7 +83,7 @@ const SignUpScreen = ({ navigation }) => {
         password,
         confirmPassword,
       });
-      
+
       navigation.replace("Login");
     } catch (error) {
       console.error("Error signing up:", error.message);

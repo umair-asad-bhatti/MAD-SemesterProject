@@ -3,7 +3,7 @@ import HomeScreen from "../home_screen/home_screen";
 import DrinkScreen from "../drink_screen/drink_screen";
 import SearchScreen from "../search_screen/search_screen";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
-import AccountScreen from "../accounts_screen/account_screen";
+import UserProfileScreen from "../profile_screen/profile_screen";
 import { Colors } from "../../constants/colors";
 import { Sizes } from '../../constants/sizes';
 
@@ -55,8 +55,8 @@ const DashboardScreen = () => {
                 }}
             />
             <Tab.Screen
-                name="AccountScreen"
-                component={AccountScreen}
+                name="UserProfileScreen"
+                component={UserProfileScreen}
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ focused, color }) => (
