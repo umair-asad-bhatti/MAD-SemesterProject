@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View, StyleSheet } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Text, View, StyleSheet, Alert } from 'react-native'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 import RecipeCard from "../../components/recipe_card/recipe_card";
 import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
@@ -19,27 +19,33 @@ export default function HomeScreen() {
     // handling the active category state
     useEffect(() => {
         const getCategories = async () => {
-            setRecipes([])
-            const data = await getData(mealdb_category_api)
-            setCategories(data.categories)
+            try {
+                setRecipes([])
+                const data = await getData(mealdb_category_api)
+                if (data)
+                    setCategories(data.categories)
+            } catch (error) {
+                Alert.alert("Something went wrong")
+            }
         }
-        getCategories().then(() => null);
+        getCategories()
     }, [])
 
     // fetch the data from api whenever category changes
     useEffect(() => {
         const getRecipeByCategory = async () => {
-            const data = await getData(mealdb_catMeal_api + activeCategory)
-            setRecipes(data.meals)
-            setLoading(false)
+            try {
+                setLoading(true)
+                const data = await getData(mealdb_catMeal_api + activeCategory)
+                setRecipes(data.meals)
+                setLoading(false)
+            } catch (error) {
+                Alert.alert("Something went wrong")
+            }
         }
-        getRecipeByCategory().then(() => null);
+        getRecipeByCategory()
     }, [activeCategory])
 
-
-    useEffect(() => {
-        setLoading(true)
-    }, [activeCategory])
 
     return (
         <View style={styles.mainView}>

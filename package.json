@@ -39,7 +39,8 @@
     "react-native-system-navigation-bar": "^2.6.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.0.2",
-    "react-native-webview": "13.2.2"
+    "react-native-webview": "13.2.2",
+    "@react-native-community/netinfo": "9.3.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
