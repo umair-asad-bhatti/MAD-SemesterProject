@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, View, TouchableOpacity, Alert } from 'react-native'
+import { Image, ScrollView, Text, View, TouchableOpacity, Alert, Linking } from 'react-native'
 import { Colors } from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
@@ -11,6 +11,7 @@ import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { debounce } from 'lodash'
 const image_size = 300
 const heart_size = 60
 const heart_bg = '#00755E'
@@ -20,7 +21,6 @@ export default function RecipeDetailScreen({ route }) {
 
   const { itemId, category } = route.params
   const navigation = useNavigation()
-
   //---------------states--------------------------------------------
   const { session, setSession } = useContext(UserContext)
   const [clicked, setClicked] = useState(false)
@@ -30,6 +30,7 @@ export default function RecipeDetailScreen({ route }) {
   const [data, setData] = useState({
     mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null
   });
+  const [isLiking, setIsLiking] = useState(false)
   //-----------------------end states--------------------------------
 
 
@@ -106,7 +107,6 @@ export default function RecipeDetailScreen({ route }) {
       })
     }
 
-
   }, [MealDetails])
 
   //setting the screen headers  to recipe title
@@ -133,42 +133,50 @@ export default function RecipeDetailScreen({ route }) {
       ])
   }
   const addRecipeToFavourite = async () => {
-    if (session) {
-      const { data } = await supabase.from('Recipes_Liked').select().eq('Recipe_id', itemId)
-      if (data.length > 0) {
-        await supabase.rpc(clicked ? 'decrement' : 'increment', { row_id: itemId })
+    if (isLiking) return
+    try {
+      setIsLiking(true)
+      //if user is logged in
+      if (session) {
+        //if someone has already the liked the recipe
+        const { data } = await supabase.from('Recipes_Liked').select().eq('Recipe_id', itemId)
+        if (data.length > 0) {
+          await supabase.rpc(clicked ? 'decrement' : 'increment', { row_id: itemId })
+        }
+        //if no one have liked the recipe and you are liking it for the first time
+        else {
+          await supabase.from('Recipes_Liked').insert({ Recipe_id: itemId, likes: 1 })
+        }
+
+        //HANDLE THE STATE OF CLIKED 
+        if (clicked == false) {
+
+          await AsyncStorage.setItem(itemId, 'clicked')
+          setClicked(true)
+        }
+        else {
+          await AsyncStorage.removeItem(itemId)
+          setClicked(false)
+        }
+
+
       }
       else {
-        await supabase.from('Recipes_Liked').insert({ Recipe_id: itemId, likes: 1 })
+        Alert.alert('Login Required', 'You must Loggin to like Recipe', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'Login', onPress: () => navigation.navigate("Login") },
+        ])
       }
-
-      //HANDLE THE STATE OF CLIKED 
-      if (clicked == false) {
-
-        await AsyncStorage.setItem(itemId, 'clicked')
-        setClicked(true)
-      }
-      else {
-
-        await AsyncStorage.removeItem(itemId)
-        setClicked(false)
-      }
-
-
-    }
-    else {
-      Alert.alert('Login Required', 'You must Loggin to like Recipe', [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        { text: 'Login', onPress: () => navigation.navigate("Login") },
-      ])
+    } catch (error) {
+      console.log('error', error.message);
+    } finally {
+      setIsLiking(false)
     }
 
-
-    //implement the add recipe to favourites using supabase database
   }
   return (
     <>
