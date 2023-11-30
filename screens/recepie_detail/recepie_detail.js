@@ -11,7 +11,6 @@ import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { debounce } from 'lodash'
 const image_size = 300
 const heart_size = 60
 const heart_bg = '#00755E'
@@ -30,6 +29,7 @@ export default function RecipeDetailScreen({ route }) {
   const [data, setData] = useState({
     mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null
   });
+  //state to handle the async behaviour of recipe liking and unliking
   const [isLiking, setIsLiking] = useState(false)
   //-----------------------end states--------------------------------
 
