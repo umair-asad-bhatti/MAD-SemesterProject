@@ -9,6 +9,7 @@ import RecipeDetailScreen from "../../screens/recepie_detail/recepie_detail";
 import Youtube_Screen from "../../screens/youtube_screen/youtube_screen";
 import EmailVerificationScreen from "../../screens/email_verification_screen/email_verification_screen";
 import UpdatePassword from "../../screens/update_password/UpdatePassword";
+import SavedRecipes from "../../screens/saved_recipes/saved_recipes";
 const Stack = createNativeStackNavigator();
 
 export default function NavigationService() {
@@ -58,6 +59,11 @@ export default function NavigationService() {
                 <Stack.Screen
                     name="UpdatePassword"
                     component={UpdatePassword}
+                    options={{ headerShown: false }}
+                />
+                 <Stack.Screen
+                    name="SavedRecipes"
+                    component={SavedRecipes}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

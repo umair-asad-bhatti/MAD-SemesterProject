@@ -25,9 +25,16 @@ export default function RecipeDetailScreen({ route }) {
   const [clicked, setClicked] = useState(false)
   const [likes, setLikes] = useState(0)
   const [MealDetails, setMealDetails] = useState({}) //store the data from api
+  //ingrdeients state
+  const [ingredients, setIngredients] = useState([]);
+  //save recipe state
+  const [isSaved, setIsSaved] = useState(false);
+
+
+
   //parsed data from api
   const [data, setData] = useState({
-    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null
+    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null, ingredients: [],
   });
   //state to handle the async behaviour of recipe liking and unliking
   const [isLiking, setIsLiking] = useState(false)
@@ -72,17 +79,87 @@ export default function RecipeDetailScreen({ route }) {
     const getMealDetails = async () => {
       const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.meals[0])
+      //get meal ingrediets detail
+       ingredients = getIngredientsList(details.meals[0]);
+      setIngredients(ingredients);
     }
     const getCocktailDetails = async () => {
 
       const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.drinks[0])
+      //get meal ingrediets detail
+       ingredients = getIngredientsList(details.drinks[0]);
+      setIngredients(ingredients);
     }
     if (category == 'meals')
       getMealDetails()
     else if (category == 'drink')
       getCocktailDetails()
   }, [category])
+
+  //getting ingredients
+  const getIngredientsList = (recipeDetails) => {
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredientKey = `strIngredient${i}`;
+      const measureKey = `strMeasure${i}`;
+      if (recipeDetails[ingredientKey]) {
+        const ingredient = `${recipeDetails[ingredientKey]} - ${recipeDetails[measureKey] || 'N/A'}`;
+        ingredients.push(ingredient);
+      } else {
+        break; 
+      }
+    }
+    return ingredients;
+  };
+  // get recipe save state
+  useEffect(() => {
+    const getSaveState = async () => {
+      try {
+        const savedRecipes = await AsyncStorage.getItem('savedRecipes');
+        if (savedRecipes) {
+          const parsedRecipes = JSON.parse(savedRecipes);
+          const isRecipeSaved = parsedRecipes.some((recipe) => recipe.itemId === itemId);
+          setIsSaved(isRecipeSaved);
+        }
+      } catch (error) {
+        console.error('Error fetching save state:', error.message);
+      }
+    };
+  
+    getSaveState();
+  }, []);
+  
+  //saving recipe in user local storage
+  const saveRecipe = async () => {
+    try {
+      const savedRecipes = await AsyncStorage.getItem('savedRecipes');
+  
+      let updatedRecipes = [];
+      if (savedRecipes) {
+        updatedRecipes = JSON.parse(savedRecipes);
+      }
+  
+      if (isSaved) {
+        // Remove the recipe from saved recipes
+        const index = updatedRecipes.findIndex((recipe) => recipe.itemId === itemId);
+        if (index !== -1) {
+          updatedRecipes.splice(index, 1);
+        }
+      } else {
+        // Add the recipe to saved recipes
+        updatedRecipes.push({ itemId, category, data });
+      }
+  
+      await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));
+      setIsSaved(!isSaved);
+      const message = isSaved ? 'Recipe unsaved!' : 'Recipe saved!';
+    Alert.alert('Success', message);
+    } catch (error) {
+      console.error('Error saving recipe:', error.message);
+    }
+  };
+  
 
   //parsing data once it is fetched from api
   useEffect(() => {
@@ -93,7 +170,8 @@ export default function RecipeDetailScreen({ route }) {
         mealArea: MealDetails.strArea,
         mealDescription: MealDetails.strInstructions,
         mealCategory: MealDetails.strCategory,
-        youtuebId: MealDetails.strYoutube
+        youtuebId: MealDetails.strYoutube,
+        ingredients: getIngredientsList(MealDetails),
       })
     }
 
@@ -103,7 +181,8 @@ export default function RecipeDetailScreen({ route }) {
         mealImg: MealDetails.strDrinkThumb,
         mealArea: MealDetails.strGlass,
         mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory
+        mealCategory: MealDetails.strCategory,
+        ingredients: getIngredientsList(MealDetails),
       })
     }
 
@@ -198,6 +277,12 @@ export default function RecipeDetailScreen({ route }) {
             <Text style={TypeScale.button}>Origin</Text>
           </TouchableOpacity>
         </View>
+        <View style={{ position: 'absolute', width: 80, top: 230 }}>
+        <TouchableOpacity onPress={saveRecipe} style={[CustomStyles.button, { backgroundColor: 'rgba(0,0,255,0.1)' }]}>
+  <Text style={TypeScale.button}>{isSaved ? 'Unsave' : 'Save'}</Text>
+</TouchableOpacity>
+
+        </View>
         <TouchableOpacity onPress={addRecipeToFavourite} style={{
           zIndex: 1000, borderRadius: 5, position: 'relative', top: 20, left: 30, width: heart_size, height: heart_size, justifyContent: 'center', alignItems: "center", backgroundColor: heart_bg
         }} >
@@ -210,8 +295,12 @@ export default function RecipeDetailScreen({ route }) {
           <Text style={{ color: 'white' }}>{likes}</Text>
         </TouchableOpacity>
         <ScrollView style={{ backgroundColor: Colors.accentColor, borderTopLeftRadius: 40, padding: 20 }}>
-          <Text style={{ marginTop: 10, color: Colors.lightColor }}>{data.mealDescription}</Text>
-        </ScrollView>
+  <Text style={{ marginTop: 10, color: Colors.lightColor }}>Ingredients:</Text>
+  <Text style={{ color: Colors.lightColor }}>{data.ingredients.join('\n')}</Text>
+  <Text style={{ marginTop: 10, color: Colors.lightColor }}>Description:</Text>
+  <Text style={{ color: Colors.lightColor }}>{data.mealDescription}</Text>
+</ScrollView>
+
       </View >
     </>
   )
