@@ -23,14 +23,10 @@ export default function RecipeDetailScreen({ route }) {
   //---------------states--------------------------------------------
   const { session, setSession } = useContext(UserContext)
   const [clicked, setClicked] = useState(false)
-  const [likes, setLikes] = useState(0)
+  const [likes, setLikes] = useState(0) //get the current like status of recipe
   const [MealDetails, setMealDetails] = useState({}) //store the data from api
-  //ingrdeients state
-  const [ingredients, setIngredients] = useState([]);
-  //save recipe state
+
   const [isSaved, setIsSaved] = useState(false);
-
-
 
   //parsed data from api
   const [data, setData] = useState({
@@ -93,17 +89,12 @@ export default function RecipeDetailScreen({ route }) {
     const getMealDetails = async () => {
       const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.meals[0])
-      //get meal ingrediets detail
-      const temp_ingredients = getIngredientsList(data.meals[0]);
-      setIngredients(temp_ingredients);
+
     }
     const getCocktailDetails = async () => {
 
       const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.drinks[0])
-      //get meal ingrediets detail
-      const Temp_ingredients = getIngredientsList(data.drinks[0]);
-      setIngredients(Temp_ingredients);
     }
     if (category == 'meals')
       getMealDetails()
@@ -183,7 +174,6 @@ export default function RecipeDetailScreen({ route }) {
 
         //HANDLE THE STATE OF CLIKED 
         if (clicked == false) {
-
           await AsyncStorage.setItem(itemId, 'clicked')
           setClicked(true)
         }
@@ -191,8 +181,6 @@ export default function RecipeDetailScreen({ route }) {
           await AsyncStorage.removeItem(itemId)
           setClicked(false)
         }
-
-
       }
       else {
         Alert.alert('Login Required', 'You must Loggin to like Recipe', [
@@ -280,9 +268,9 @@ export default function RecipeDetailScreen({ route }) {
           <Text style={{ color: 'white' }}>{likes}</Text>
         </TouchableOpacity>
         <ScrollView style={{ backgroundColor: Colors.accentColor, borderTopLeftRadius: 40, padding: 20 }}>
-          <Text style={{ marginTop: 10, color: Colors.lightColor }}>Ingredients:</Text>
+          <Text style={{ marginTop: 10, color: Colors.lightColor, fontWeight: 'bold', fontSize: Sizes.h4Headline }}>Ingredients:</Text>
           <Text style={{ color: Colors.lightColor }}>{data.ingredients.join('\n')}</Text>
-          <Text style={{ marginTop: 10, color: Colors.lightColor }}>Description:</Text>
+          <Text style={{ marginTop: 10, color: Colors.lightColor, fontWeight: 'bold', fontSize: Sizes.h4Headline }}>Description:</Text>
           <Text style={{ color: Colors.lightColor }}>{data.mealDescription}</Text>
         </ScrollView>
 

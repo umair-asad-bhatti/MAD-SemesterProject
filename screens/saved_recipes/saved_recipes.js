@@ -4,8 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState([]);
-
-
   //get saved recipes from user local storage
   useEffect(() => {
     const fetchSavedRecipes = async () => {
