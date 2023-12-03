@@ -3,9 +3,9 @@ import { Image, ScrollView, Text, View, TouchableOpacity, Alert, Linking } from 
 import { Colors } from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
-import { getData } from '../../utils'
+import { getData, getIngredientsList } from '../../utils'
 import { CustomStyles } from '../../constants/custom_styles'
-import { FontAwesome5, AntDesign } from '@expo/vector-icons'
+import { FontAwesome5, AntDesign, Ionicons } from '@expo/vector-icons'
 import { TypeScale } from '../../constants/type_scale'
 import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
@@ -34,7 +34,7 @@ export default function RecipeDetailScreen({ route }) {
 
   //parsed data from api
   const [data, setData] = useState({
-    mealImg: null, mealName: "", mealDescription: "hehehh", mealArea: "", mealCategory: "", youtuebId: null, ingredients: [],
+    mealImg: null, mealName: "", mealDescription: "no description", mealArea: "", mealCategory: "", youtuebId: null, ingredients: [],
   });
   //state to handle the async behaviour of recipe liking and unliking
   const [isLiking, setIsLiking] = useState(false)
@@ -58,6 +58,20 @@ export default function RecipeDetailScreen({ route }) {
       else
         setLikes(0)
     }
+    const getSaveState = async () => {
+      try {
+        const savedRecipes = await AsyncStorage.getItem('savedRecipes');
+        if (savedRecipes) {
+          const parsedRecipes = JSON.parse(savedRecipes);
+          const isRecipeSaved = parsedRecipes.some((recipe) => recipe.itemId === itemId);
+          setIsSaved(isRecipeSaved);
+        }
+      } catch (error) {
+        console.error('Error fetching save state:', error.message);
+      }
+    };
+
+    getSaveState();
     getLikes()
     getClickState()
 
@@ -80,16 +94,16 @@ export default function RecipeDetailScreen({ route }) {
       const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.meals[0])
       //get meal ingrediets detail
-       ingredients = getIngredientsList(details.meals[0]);
-      setIngredients(ingredients);
+      const temp_ingredients = getIngredientsList(data.meals[0]);
+      setIngredients(temp_ingredients);
     }
     const getCocktailDetails = async () => {
 
       const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data.drinks[0])
       //get meal ingrediets detail
-       ingredients = getIngredientsList(details.drinks[0]);
-      setIngredients(ingredients);
+      const Temp_ingredients = getIngredientsList(data.drinks[0]);
+      setIngredients(Temp_ingredients);
     }
     if (category == 'meals')
       getMealDetails()
@@ -97,69 +111,9 @@ export default function RecipeDetailScreen({ route }) {
       getCocktailDetails()
   }, [category])
 
-  //getting ingredients
-  const getIngredientsList = (recipeDetails) => {
-    const ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-      const ingredientKey = `strIngredient${i}`;
-      const measureKey = `strMeasure${i}`;
-      if (recipeDetails[ingredientKey]) {
-        const ingredient = `${recipeDetails[ingredientKey]} - ${recipeDetails[measureKey] || 'N/A'}`;
-        ingredients.push(ingredient);
-      } else {
-        break; 
-      }
-    }
-    return ingredients;
-  };
-  // get recipe save state
-  useEffect(() => {
-    const getSaveState = async () => {
-      try {
-        const savedRecipes = await AsyncStorage.getItem('savedRecipes');
-        if (savedRecipes) {
-          const parsedRecipes = JSON.parse(savedRecipes);
-          const isRecipeSaved = parsedRecipes.some((recipe) => recipe.itemId === itemId);
-          setIsSaved(isRecipeSaved);
-        }
-      } catch (error) {
-        console.error('Error fetching save state:', error.message);
-      }
-    };
-  
-    getSaveState();
-  }, []);
-  
-  //saving recipe in user local storage
-  const saveRecipe = async () => {
-    try {
-      const savedRecipes = await AsyncStorage.getItem('savedRecipes');
-  
-      let updatedRecipes = [];
-      if (savedRecipes) {
-        updatedRecipes = JSON.parse(savedRecipes);
-      }
-  
-      if (isSaved) {
-        // Remove the recipe from saved recipes
-        const index = updatedRecipes.findIndex((recipe) => recipe.itemId === itemId);
-        if (index !== -1) {
-          updatedRecipes.splice(index, 1);
-        }
-      } else {
-        // Add the recipe to saved recipes
-        updatedRecipes.push({ itemId, category, data });
-      }
-  
-      await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));
-      setIsSaved(!isSaved);
-      const message = isSaved ? 'Recipe unsaved!' : 'Recipe saved!';
-    Alert.alert('Success', message);
-    } catch (error) {
-      console.error('Error saving recipe:', error.message);
-    }
-  };
-  
+
+
+
 
   //parsing data once it is fetched from api
   useEffect(() => {
@@ -257,6 +211,40 @@ export default function RecipeDetailScreen({ route }) {
     }
 
   }
+  //saving recipe in user local storage
+  const saveRecipe = async () => {
+    if (!session) {
+      Alert.alert("Login to save the recipe")
+      return;
+    }
+    try {
+      const savedRecipes = await AsyncStorage.getItem('savedRecipes');
+
+      let updatedRecipes = [];
+      if (savedRecipes) {
+        updatedRecipes = JSON.parse(savedRecipes);
+      }
+
+      if (isSaved) {
+        // Remove the recipe from saved recipes
+        const index = updatedRecipes.findIndex((recipe) => recipe.itemId === itemId);
+        if (index !== -1) {
+          updatedRecipes.splice(index, 1);
+        }
+      } else {
+        // Add the recipe to saved recipes
+        updatedRecipes.push({ itemId, category, data });
+      }
+
+      await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));
+      setIsSaved(!isSaved);
+      const message = isSaved ? 'Recipe unsaved!' : 'Recipe saved!';
+      Alert.alert('Success', message);
+    } catch (error) {
+      console.error('Error saving recipe:', error.message);
+    }
+  };
+
   return (
     <>
       <View style={{ flex: 1 }}>
@@ -273,15 +261,12 @@ export default function RecipeDetailScreen({ route }) {
           </TouchableOpacity>
         </View>
         <View style={{ position: 'absolute', width: 100, top: 170 }}>
-          <TouchableOpacity style={[CustomStyles.button, { backgroundColor: 'rgba(0,0,255,0.1)' }]}>
-            <Text style={TypeScale.button}>Origin</Text>
+          <TouchableOpacity style={[CustomStyles.button, { backgroundColor: 'rgba(0,0,255,0.1)' }, { flexDirection: 'row', justifyContent: 'space-evenly' }]} onPress={saveRecipe}>
+            <Ionicons name={isSaved ? 'save' : 'save-outline'} size={youtubeicon_size} color={youtubeicon_color} />
+            <Text style={TypeScale.button}>{isSaved ? 'unsave' : 'save'}</Text>
           </TouchableOpacity>
         </View>
         <View style={{ position: 'absolute', width: 80, top: 230 }}>
-        <TouchableOpacity onPress={saveRecipe} style={[CustomStyles.button, { backgroundColor: 'rgba(0,0,255,0.1)' }]}>
-  <Text style={TypeScale.button}>{isSaved ? 'Unsave' : 'Save'}</Text>
-</TouchableOpacity>
-
         </View>
         <TouchableOpacity onPress={addRecipeToFavourite} style={{
           zIndex: 1000, borderRadius: 5, position: 'relative', top: 20, left: 30, width: heart_size, height: heart_size, justifyContent: 'center', alignItems: "center", backgroundColor: heart_bg
@@ -295,11 +280,11 @@ export default function RecipeDetailScreen({ route }) {
           <Text style={{ color: 'white' }}>{likes}</Text>
         </TouchableOpacity>
         <ScrollView style={{ backgroundColor: Colors.accentColor, borderTopLeftRadius: 40, padding: 20 }}>
-  <Text style={{ marginTop: 10, color: Colors.lightColor }}>Ingredients:</Text>
-  <Text style={{ color: Colors.lightColor }}>{data.ingredients.join('\n')}</Text>
-  <Text style={{ marginTop: 10, color: Colors.lightColor }}>Description:</Text>
-  <Text style={{ color: Colors.lightColor }}>{data.mealDescription}</Text>
-</ScrollView>
+          <Text style={{ marginTop: 10, color: Colors.lightColor }}>Ingredients:</Text>
+          <Text style={{ color: Colors.lightColor }}>{data.ingredients.join('\n')}</Text>
+          <Text style={{ marginTop: 10, color: Colors.lightColor }}>Description:</Text>
+          <Text style={{ color: Colors.lightColor }}>{data.mealDescription}</Text>
+        </ScrollView>
 
       </View >
     </>

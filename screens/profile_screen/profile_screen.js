@@ -46,11 +46,12 @@ export default function UserProfileScreen({ navigation }) {
                                 <Text style={styles.fullName}>{userData.email}</Text>
                             </View>
                             <Button text={"Logout"} onButtonPress={handleLogout} />
+                            <Button text={"Saved Recipes"} onButtonPress={() => navigation.navigate("SavedRecipes")} />
                         </> :
                         <View style={{ flex: 1, gap: 20 }}>
                             <Button text={"Login"} onButtonPress={() => navigation.navigate("Login")} />
                             <Button text={"sign up"} onButtonPress={() => navigation.navigate("SignUp")} />
-                            <Button text={"Saved Recipes"} onButtonPress={() => navigation.navigate("SavedRecipes")} />
+
                         </View>
             }
         </View>

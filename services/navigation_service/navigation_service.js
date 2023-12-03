@@ -61,7 +61,7 @@ export default function NavigationService() {
                     component={UpdatePassword}
                     options={{ headerShown: false }}
                 />
-                 <Stack.Screen
+                <Stack.Screen
                     name="SavedRecipes"
                     component={SavedRecipes}
                     options={{ headerShown: false }}

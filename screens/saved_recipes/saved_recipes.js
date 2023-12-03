@@ -14,6 +14,7 @@ export default function SavedRecipes() {
         if (savedRecipesData) {
           const parsedRecipes = JSON.parse(savedRecipesData);
           setSavedRecipes(parsedRecipes);
+
         }
       } catch (error) {
         console.error('Error fetching saved recipes:', error.message);
@@ -32,6 +33,7 @@ export default function SavedRecipes() {
         renderItem={({ item }) => (
           <View>
             <Text>{item.data.mealName}</Text>
+
             {/* display other fields like img, description, also */}
           </View>
         )}
