@@ -36,11 +36,10 @@ export default function RecipeDetailScreen({ route }) {
   const [isLiking, setIsLiking] = useState(false)
   //-----------------------end states--------------------------------
 
-
   //fetch the likes on first render
   useEffect(() => {
     const getClickState = async () => {
-      const state = await AsyncStorage.getItem(itemId)
+      const state = await AsyncStorage.getItem(`ClickStateOf${itemId}`)
       if (state == 'clicked')
         setClicked(true)
       else
@@ -48,7 +47,7 @@ export default function RecipeDetailScreen({ route }) {
     }
     const getLikes = async () => {
 
-      const { data } = await supabase.from("Recipes_Liked").select('likes').eq('Recipe_id', itemId)
+      const { data } = await supabase.from("Recipes_Liked").select('likes').eq('Recipe_id', 53031)
       if (data.length > 0)
         setLikes(data[0].likes)
       else
@@ -87,8 +86,11 @@ export default function RecipeDetailScreen({ route }) {
   //fetching data from api
   useEffect(() => {
     const getMealDetails = async () => {
-      const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
-      setMealDetails(data.meals[0])
+      console.log(itemId);
+      const { data } = await supabase.from('Recipes').select().eq('idMeal', 53031)
+      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
+      console.log(data);
+      setMealDetails(data[0])
 
     }
     const getCocktailDetails = async () => {
@@ -101,10 +103,6 @@ export default function RecipeDetailScreen({ route }) {
     else if (category == 'drink')
       getCocktailDetails()
   }, [category])
-
-
-
-
 
   //parsing data once it is fetched from api
   useEffect(() => {
@@ -174,11 +172,11 @@ export default function RecipeDetailScreen({ route }) {
 
         //HANDLE THE STATE OF CLIKED 
         if (clicked == false) {
-          await AsyncStorage.setItem(itemId, 'clicked')
+          await AsyncStorage.setItem(`ClickStateOf${itemId}`, 'clicked')
           setClicked(true)
         }
         else {
-          await AsyncStorage.removeItem(itemId)
+          await AsyncStorage.removeItem(`ClickStateOf${itemId}`)
           setClicked(false)
         }
       }

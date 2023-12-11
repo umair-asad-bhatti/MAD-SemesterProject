@@ -6,26 +6,26 @@ import CategoryCircularCard from '../../components/category_circular_card/catego
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
-import { getData } from '../../utils'
-import { mealdb_category_api, mealdb_catMeal_api } from '../../constants/api'
 import { ImageStrings } from "../../constants/image_strings";
+import { supabase } from '../../services/supabase/client'
 
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
     const [Recipes, setRecipes] = useState([])
-    const [activeCategory, setActiveCategory] = useState('beef')
+    const [activeCategory, setActiveCategory] = useState('Beef')
     const [loading, setLoading] = useState(false);
 
-    // handling the active category state
+
     useEffect(() => {
         const getCategories = async () => {
             try {
                 setRecipes([])
-                const data = await getData(mealdb_category_api)
+                const { data } = await supabase.from('categories').select()
+                // const data = await getData(mealdb_category_api)
                 if (data)
-                    setCategories(data.categories)
+                    setCategories(data)
             } catch (error) {
-                Alert.alert("Something went wrong")
+                Alert.alert("Something went wrong", error)
             }
         }
         getCategories()
@@ -36,8 +36,9 @@ export default function HomeScreen() {
         const getRecipeByCategory = async () => {
             try {
                 setLoading(true)
-                const data = await getData(mealdb_catMeal_api + activeCategory)
-                setRecipes(data.meals)
+
+                const { data } = await supabase.from('RecipesByCategory').select().ilike('strCategory', activeCategory)
+                setRecipes(data)
                 setLoading(false)
             } catch (error) {
                 Alert.alert("Something went wrong")
