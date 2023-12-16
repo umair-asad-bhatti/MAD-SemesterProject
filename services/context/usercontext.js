@@ -12,6 +12,7 @@ const UserProvider = ({ children }) => {
         })
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
+            console.log("nice work by ream ");
         })
     }, [])
     return (
