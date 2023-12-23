@@ -8,7 +8,7 @@ import { Colors } from '../../constants/colors';
 
 
 
-export default function Accordian({ savedRecipes, setSavedRecipes, unsaveRecipe, id, title, image, description, ingredients }) {
+export default function Accordian({ unsaveRecipe, id, title, image, description, ingredients }) {
     const [isCollapsed, setIsCollapsed] = useState(true);
 
     const toggleAccordion = () => {
