@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, View, TouchableOpacity, Alert, Linking } from 'react-native'
+import { Image, ScrollView, Text, View, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { Colors } from '../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
@@ -11,6 +11,7 @@ import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const image_size = 300
 const heart_size = 60
 const heart_bg = '#00755E'
@@ -19,7 +20,6 @@ const youtubeicon_color = Colors.accentColor
 export default function RecipeDetailScreen({ route }) {
 
   const { itemId, category } = route.params
-  console.log(category);
   const navigation = useNavigation()
   //---------------states--------------------------------------------
   const { session, setSession } = useContext(UserContext)
@@ -31,11 +31,77 @@ export default function RecipeDetailScreen({ route }) {
 
   //parsed data from api
   const [data, setData] = useState({
-    mealImg: null, mealName: "", mealDescription: "no description", mealArea: "", mealCategory: "", youtuebId: null, ingredients: [],
+    mealImg: null, mealName: null, mealDescription: null, mealArea: null, mealCategory: null, youtuebId: null, ingredients: [],
   });
   //state to handle the async behaviour of recipe liking and unliking
   const [isLiking, setIsLiking] = useState(false)
   //-----------------------end states--------------------------------
+
+
+  //fetching data from db
+  useEffect(() => {
+
+    const getMealDetails = async () => {
+
+      const { data } = await supabase.from('Recipes').select().eq('idMeal', itemId)
+      console.log(data);
+      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
+      setMealDetails(data[0])
+
+    }
+    const getCocktailDetails = async () => {
+
+      const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
+      setMealDetails(data.drinks[0])
+    }
+    if (category == 'meals')
+      getMealDetails()
+    else if (category == 'drink')
+      getCocktailDetails()
+  }, [category])
+
+  //parsing data once it is fetched from api
+  useEffect(() => {
+    if (category == 'meals') {
+      setData({
+        mealName: MealDetails.strMeal,
+        mealImg: MealDetails.strMealThumb,
+        mealArea: MealDetails.strArea,
+        mealDescription: MealDetails.strInstructions,
+        mealCategory: MealDetails.strCategory,
+        youtuebId: MealDetails.strYoutube,
+        ingredients: getIngredientsList(MealDetails),
+      })
+    }
+
+    else if (category == 'drink') {
+      setData({
+        mealName: MealDetails.strDrink,
+        mealImg: MealDetails.strDrinkThumb,
+        mealArea: MealDetails.strGlass,
+        mealDescription: MealDetails.strInstructions,
+        mealCategory: MealDetails.strCategory,
+        ingredients: getIngredientsList(MealDetails),
+      })
+    }
+
+
+  }, [MealDetails])
+
+
+  //setting the screen headers  to recipe title
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => {
+        return <View>
+          <Text style={{ color: Colors.accentColor, fontWeight: 'bold' }}>{data.mealName ?? ""}</Text>
+          {
+            data.mealArea && data.mealCategory && <Text style={{ marginTop: 5 }}>{data.mealArea + " | " + data.mealCategory}</Text>
+          }
+        </View>
+      }
+    })
+  }, [data])
 
   //fetch the likes on first render
   useEffect(() => {
@@ -84,65 +150,6 @@ export default function RecipeDetailScreen({ route }) {
       )
       .subscribe()
   }, [])
-  //fetching data from api
-  useEffect(() => {
-    const getMealDetails = async () => {
-
-      const { data } = await supabase.from('Recipes').select().eq('idMeal', itemId)
-      console.log(data);
-      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
-      setMealDetails(data[0])
-
-    }
-    const getCocktailDetails = async () => {
-
-      const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
-      setMealDetails(data.drinks[0])
-    }
-    if (category == 'meals')
-      getMealDetails()
-    else if (category == 'drink')
-      getCocktailDetails()
-  }, [category])
-
-  //parsing data once it is fetched from api
-  useEffect(() => {
-    if (category == 'meals') {
-      setData({
-        mealName: MealDetails.strMeal,
-        mealImg: MealDetails.strMealThumb,
-        mealArea: MealDetails.strArea,
-        mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory,
-        youtuebId: MealDetails.strYoutube,
-        ingredients: getIngredientsList(MealDetails),
-      })
-    }
-
-    else if (category == 'drink') {
-      setData({
-        mealName: MealDetails.strDrink,
-        mealImg: MealDetails.strDrinkThumb,
-        mealArea: MealDetails.strGlass,
-        mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory,
-        ingredients: getIngredientsList(MealDetails),
-      })
-    }
-
-  }, [MealDetails])
-
-  //setting the screen headers  to recipe title
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => {
-        return <View>
-          <Text style={{ color: Colors.accentColor, fontWeight: 'bold' }}>{data.mealName}</Text>
-          <Text style={{ marginTop: 5 }}>{data.mealArea + " | " + data.mealCategory}</Text>
-        </View>
-      }
-    })
-  }, [data])
   const goToYoutubeScreen = () => {
     session ?
       navigation.navigate('youtube_screen', { youtubeId: data.youtuebId, mealName: data.mealName })
@@ -232,7 +239,7 @@ export default function RecipeDetailScreen({ route }) {
     }
   };
 
-  return (
+  return data.mealName ? (
     <>
       <View style={{ flex: 1 }}>
         <Image source={{ uri: data.mealImg }} style={{ borderRadius: image_size, width: image_size, height: image_size, position: 'relative', left: '40%', top: 80, zIndex: 23 }} />
@@ -275,5 +282,6 @@ export default function RecipeDetailScreen({ route }) {
 
       </View >
     </>
-  )
+  ) : <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
+
 }

@@ -64,7 +64,7 @@ export default function NavigationService() {
                 <Stack.Screen
                     name="SavedRecipes"
                     component={SavedRecipes}
-                    options={{ headerShown: false }}
+
                 />
             </Stack.Navigator>
         </NavigationContainer>
