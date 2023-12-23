@@ -28,7 +28,7 @@ const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const handleSignUp = async () => {
     if (!username) {
       alert("Please enter a username");
@@ -60,6 +60,7 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     try {
+      setIsSubmitting(true)
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
@@ -72,21 +73,15 @@ const SignUpScreen = ({ navigation }) => {
 
       if (error) {
         alert("Error signing up. Please try again.");
-        console.error(error);
+        setIsSubmitting(false)
         return;
       }
-
-      //alert("Confirm Your Email Address");
-      console.log("Signing Up with", {
-        username,
-        email,
-        password,
-        confirmPassword,
-      });
-
+      setIsSubmitting(false)
       navigation.replace("Login");
     } catch (error) {
       console.error("Error signing up:", error.message);
+      setIsSubmitting(false)
+      return;
     }
   };
 
@@ -160,7 +155,9 @@ const SignUpScreen = ({ navigation }) => {
           onChangeText={(text) => setConfirmPassword(text)}
           keyboardAppearance="light"
         />
-        <Button text={TextStrings.signUp} onButtonPress={handleSignUp} />
+        <TouchableOpacity onPressIn={handleSignUp} disabled={isSubmitting ? true : false} style={styles.button}>
+          <Text style={TypeScale.button}>{!isSubmitting ? TextStrings.signUp : 'Loading'}</Text>
+        </TouchableOpacity>
         <View style={styles.formHeight}></View>
         <SocialMediaButton
           onButtonPress={googleSignUp}

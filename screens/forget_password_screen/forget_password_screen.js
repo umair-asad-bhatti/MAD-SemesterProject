@@ -13,7 +13,11 @@ createNativeStackNavigator();
 const ForgetPasswordScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const continueButtonHandle = async () => {
-
+        let { data, error } = await supabase.auth.resetPasswordForEmail(email)
+        if (error)
+            console.log(error);
+        if (data)
+            console.log(data);
     };
 
     return (

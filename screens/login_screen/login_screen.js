@@ -25,14 +25,16 @@ import { useContext } from 'react';
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const handleLogin = async () => {
+
     if (!email || !password) {
       alert('Please fill in all fields');
       return;
     }
 
     try {
+      setIsSubmitting(true)
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -40,15 +42,18 @@ const LoginScreen = ({ navigation }) => {
 
       if (error) {
         alert('Invalid email or password. Please try again.');
-        console.error(error);
+        setIsSubmitting(false)
         return;
       }
 
       // User successfully authenticated
+      setIsSubmitting(false)
       navigation.replace("Dashboard");
     } catch (error) {
       console.error('Error signing in:', error.message);
+
     }
+    return;
   };
 
   const forgetPasswordHandle = () => {
@@ -108,7 +113,10 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.forgotPasswordText}>{TextStrings.forgetPassword}</Text>
           </TouchableOpacity>
         </View>
-        <Button text={TextStrings.login} onButtonPress={handleLogin} />
+        <TouchableOpacity disabled={isSubmitting ? true : false} style={styles.button} onPress={handleLogin}>
+          <Text style={TypeScale.button}>{!isSubmitting ? TextStrings.login : 'Loading'}</Text>
+        </TouchableOpacity>
+
         <View style={styles.formHeight}></View>
         <SocialMediaButton onButtonPress={googleSignUp} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo} />
         <TouchableOpacity onPress={goToRegisterScreen}>

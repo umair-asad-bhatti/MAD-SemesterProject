@@ -12,7 +12,7 @@ export default function UserProfileScreen({ navigation }) {
     const [userData, setUserData] = useState({
         username: 'test',
         email: 'test',
-        profile: "https://randomuser.me/api/portraits/men/84.jpg"
+        profile: "https://randomuser.me/api/portraits/men/7.jpg"
     });
     const [Loading, setLoading] = useState(false)
     useEffect(() => {

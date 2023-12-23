@@ -5,11 +5,10 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    Button,
-    StatusBar,
-    Image,
+
     Dimensions,
-    ScrollView
+    TouchableOpacity,
+    FlatList
 } from 'react-native';
 import { TextStrings } from "../../constants/text_strings";
 import { Colors } from "../../constants/colors";
@@ -19,11 +18,15 @@ import { ImageStrings } from "../../constants/image_strings";
 import { CustomStyles } from "../../constants/custom_styles";
 
 import axios from 'axios';
+import { tryEach } from 'async';
+
 
 
 const RecipesRecommendation = ({ navigation }) => {
     const [ipAddr, setIpAddr] = useState(null)
-
+    const [ingredients, setIngredients] = useState("")
+    const [recommendedRecipes, setRecommendedRecipes] = useState([])
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
         const getIpAddress = async () => {
             const ip = await Network.getIpAddressAsync();
@@ -34,43 +37,49 @@ const RecipesRecommendation = ({ navigation }) => {
     }, [])
 
     let getRecipeRecommendations = async () => {
+        setLoading(true)
+        setRecommendedRecipes([])
+        try {
+            const res = await axios.post(`http://192.168.100.11:5000/recommend`, {
+                ingredients: ingredients
+            });
+            setRecommendedRecipes(res.data)
 
-        const res = await axios.post(`http://10.135.82.30:5000/recommend`, {
-            ingredients: "eggs, bread, cheese, ketchup, mayo, onions"
-        });
-        console.log(res.data);
-
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false)
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <View style={styles.container}>
-                <StatusBar backgroundColor={Colors.backgroundColor} barStyle="light-content" />
-                <Image style={styles.image} source={ImageStrings.mainLogo} />
-                <Text style={styles.title}>{`http://${ipAddr}:5000/recommmend`}</Text>
-                {/* <Text style={styles.subtitle}>{TextStrings.loginSubtitle}</Text> */}
-                <TextInput
-                    style={styles.input}
-                    placeholder={TextStrings.ingredients}
-                    placeholderTextColor={Colors.lightColor}
-                    cursorColor={Colors.lightColor}
-                    value={''}
-                    onChangeText={(text) => setData(text)}
-                    keyboardAppearance='light'
-                // keyboardType={'Recipe_Recommend'}
+        <View style={{ flex: 1, backgroundColor: Colors.backgroundColor, padding: 20 }}>
+            <TextInput
+                style={styles.input}
+                placeholder={TextStrings.ingredients}
+                placeholderTextColor={Colors.lightColor}
+                cursorColor={Colors.lightColor}
+                value={ingredients}
+                onChangeText={(text) => setIngredients(text)}
+            // keyboardType={'Recipe_Recommend'}
+            />
+
+            <TouchableOpacity disabled={loading ? true : false} style={styles.button} onPress={getRecipeRecommendations}>
+                <Text style={TypeScale.button}>{!loading ? "Recommend Recipe" : 'Loading'}</Text>
+            </TouchableOpacity>
+
+            <View style={{ marginTop: 30 }}>
+                <FlatList
+                    data={recommendedRecipes}
+                    renderItem={({ item }) => {
+                        return <Text style={{ color: 'white' }}>{item}</Text>
+                    }}
                 />
-                <Button title={TextStrings.recommend} onPress={getRecipeRecommendations} />
-                <View style={styles.formHeight}></View>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    scrollViewContainer: CustomStyles.screenScrollContainerStyle,
-    container: CustomStyles.screenContainerStyle,
-    title: CustomStyles.title,
-    subtitle: CustomStyles.subtitle,
     image: {
         height: Dimensions.get('window').width * 0.45,
         width: Dimensions.get('window').width * 0.45,
@@ -79,23 +88,12 @@ const styles = StyleSheet.create({
         ...CustomStyles.input,
         width: '100%',
     },
-    forgotPasswordView: {
-        width: '100%',
-        alignItems: 'flex-end',
-        marginBottom: Sizes.formHeight,
-    },
-    forgotPasswordText: TypeScale.button,
+
     button: {
         ...CustomStyles.button,
         width: '100%',
     },
-    formHeight: {
-        height: Sizes.formHeight,
-    },
-    footerText: {
-        ...TypeScale.subtitle2,
-        marginTop: Sizes.formHeight * 2,
-    },
+
 });
 
 export default RecipesRecommendation;

@@ -282,6 +282,6 @@ export default function RecipeDetailScreen({ route }) {
 
       </View >
     </>
-  ) : <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
+  ) : <ActivityIndicator style={{ marginTop: '50%' }} size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
 
 }
