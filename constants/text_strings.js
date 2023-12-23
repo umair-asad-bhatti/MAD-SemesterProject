@@ -5,7 +5,7 @@ const TextStrings = {
     email: 'Email Address',
     password: 'Password',
     confirmPassword: 'Confirm Password',
-   
+
 
 
     //welcome screen texts
@@ -27,15 +27,20 @@ const TextStrings = {
     forgetPassword: 'Forget Password?',
     forgetPasswordTitle: 'Forgot Your Password?',
     forgetPasswordSubtitle: 'Enter Your Email And We Will Send You Reset Password Link On Your Email',
-    
+
     //update Password Screen texts
-    newPassword:'New Passowrd',
+    newPassword: 'New Passowrd',
     updatePassword: 'Update Password',
     updatePasswordTitle: 'Update Your Password',
     updatePasswordSubtitle: 'Enter New Password and Update',
 
     // search text
     search_placeholder: 'search by ingredient',
+
+    //Recipe Recomendation Strings
+    recommend: 'Recommend',
+    ingredients: 'Enter Ingredients',
+    recipeRecommendTitle: 'Make Your Own Recipe'
 };
 
 export { TextStrings };

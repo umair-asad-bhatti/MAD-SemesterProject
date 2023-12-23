@@ -4,6 +4,7 @@ import { Sizes } from '../../constants/sizes'
 import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native'
 export default function RecipeCard({ itemName, itemImg, itemId, category }) {
+
   const navigation = useNavigation()
   const windowWidth = Dimensions.get('window').width;
 

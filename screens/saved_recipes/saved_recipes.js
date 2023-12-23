@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import RecipeCard from '../../components/recipe_card/recipe_card';
+import { TypeScale } from '../../constants/type_scale';
+import { Colors } from '../../constants/colors';
+import { Sizes } from '../../constants/sizes';
 export default function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState([]);
   //get saved recipes from user local storage
@@ -23,18 +26,23 @@ export default function SavedRecipes() {
   }, []);
 
   return (
-    <View>
-      <Text>Saved Recipes</Text>
-      <FlatList
-        data={savedRecipes}
-        keyExtractor={(item) => item.itemId.toString()}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.data.mealName}</Text>
+    <View style={{ padding: Sizes.screenPadding }}>
+      <Text style={{ ...TypeScale.h4Headline, color: Colors.accentColor, fontWeight: 'bold' }}>Your Recipes</Text>
 
-            {/* display other fields like img, description, also */}
-          </View>
-        )}
+      {/* <Button title={'clear storage'} onPress={async () => await AsyncStorage.removeItem('savedRecipes')} /> */}
+      <FlatList
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        numColumns={2}
+        data={savedRecipes}
+        renderItem={({ item, index }) => {
+          const itemName = item.data.mealName
+          const itemImg = item.data.mealImg
+          const itemId = item.itemId
+          const category = item.category
+
+          return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
+        }}
+
       />
     </View>
   );
