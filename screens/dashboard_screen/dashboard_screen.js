@@ -6,6 +6,7 @@ import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import UserProfileScreen from "../profile_screen/profile_screen";
 import { Colors } from "../../constants/colors";
 import { Sizes } from '../../constants/sizes';
+import RecipesRecommendation from '../recipes_recommendation/recipes_recommendation';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -55,6 +56,16 @@ const DashboardScreen = () => {
                 }}
             />
             <Tab.Screen
+                name="RecipesRecommendation"
+                component={RecipesRecommendation}
+                options={{
+                    tabBarLabel: 'Recommendation',
+                    tabBarIcon: ({ focused, color }) => (
+                        <FontAwesome5 name="fire" color={focused ? 'black' : color} size={Sizes.icon_size} />
+                    ),
+                }}
+            />
+            <Tab.Screen
                 name="UserProfileScreen"
                 component={UserProfileScreen}
                 options={{
@@ -64,6 +75,7 @@ const DashboardScreen = () => {
                     ),
                 }}
             />
+
         </Tab.Navigator>
     );
 }

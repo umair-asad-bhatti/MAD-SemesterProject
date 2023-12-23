@@ -19,6 +19,7 @@ const youtubeicon_color = Colors.accentColor
 export default function RecipeDetailScreen({ route }) {
 
   const { itemId, category } = route.params
+  console.log(category);
   const navigation = useNavigation()
   //---------------states--------------------------------------------
   const { session, setSession } = useContext(UserContext)
@@ -86,10 +87,10 @@ export default function RecipeDetailScreen({ route }) {
   //fetching data from api
   useEffect(() => {
     const getMealDetails = async () => {
-      console.log(itemId);
-      const { data } = await supabase.from('Recipes').select().eq('idMeal', 53031)
-      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
+
+      const { data } = await supabase.from('Recipes').select().eq('idMeal', itemId)
       console.log(data);
+      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data[0])
 
     }
@@ -219,7 +220,7 @@ export default function RecipeDetailScreen({ route }) {
         }
       } else {
         // Add the recipe to saved recipes
-        updatedRecipes.push({ itemId, category, data });
+        updatedRecipes.push({ data, itemId, category });
       }
 
       await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));
