@@ -3,7 +3,6 @@ import { TouchableOpacity, Image, Text } from 'react-native';
 import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 
-
 const CategoryCircularCard = ({ categoryName, categoryImg, setActiveCategory, activeCategory }) => {
 
     return <>
