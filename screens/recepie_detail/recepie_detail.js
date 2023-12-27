@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, Text, View, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { Colors } from '../../constants/colors'
+import { logger } from "react-native-logs";
 import { useNavigation } from '@react-navigation/native'
 import { Sizes } from '../../constants/sizes'
 import { getData, getIngredientsList } from '../../utils'
@@ -19,7 +20,7 @@ const heart_bg = '#00755E'
 const youtubeicon_size = 25
 const youtubeicon_color = Colors.accentColor
 export default function RecipeDetailScreen({ route }) {
-
+  const log = logger.createLogger();
   const { itemId, category } = route.params
   const navigation = useNavigation()
   //---------------states--------------------------------------------
@@ -45,6 +46,7 @@ export default function RecipeDetailScreen({ route }) {
     const getMealDetails = async () => {
 
       const { data } = await supabase.from('Recipes').select().eq('idMeal', itemId)
+      log.debug(data)
       setMealDetails(data[0])
     }
     const getCocktailDetails = async () => {
