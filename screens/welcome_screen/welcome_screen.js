@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     image: {
         width: Dimensions.get('window').width * 0.3,
         height: Dimensions.get('window').width * 0.3,
+        borderRadius:Dimensions.get('window').width * 0.3
     },
     button: {
         ...CustomStyles.button,

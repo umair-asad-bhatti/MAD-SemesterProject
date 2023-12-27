@@ -33,10 +33,6 @@ export default function Accordian({ unsaveRecipe, id, title, image, description,
                     }
                 </TouchableOpacity>
 
-
-
-
-
             </View>
             {
                 !isCollapsed && (

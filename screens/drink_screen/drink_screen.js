@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Text, View } from 'react-native'
+import {  FlatList, Text, View } from 'react-native'
 import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated'
 import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
 import RecipeCard from "../../components/recipe_card/recipe_card"
@@ -8,6 +8,7 @@ import { Colors } from '../../constants/colors'
 import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
 import { getData } from '../../utils'
+import Loading from "../../components/loading/Loading";
 
 
 export default function DrinkScreen() {
@@ -71,7 +72,8 @@ export default function DrinkScreen() {
                 }}
               />
             </Animated.View> :
-            <ActivityIndicator color={Colors.accentColor} size={Sizes.indicator_size} />
+              <Loading color={Colors.accentColor} size={Sizes.indicator_size}/>
+
         }
       </View>
     </View >

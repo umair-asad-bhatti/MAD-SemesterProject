@@ -113,9 +113,8 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.forgotPasswordText}>{TextStrings.forgetPassword}</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity disabled={isSubmitting ? true : false} style={styles.button} onPress={handleLogin}>
-          <Text style={TypeScale.button}>{!isSubmitting ? TextStrings.login : 'Loading'}</Text>
-        </TouchableOpacity>
+
+        <Button disabled={isSubmitting ? true : false} onButtonPress={handleLogin} text={!isSubmitting ? TextStrings.login : 'Loading'}/>
 
         <View style={styles.formHeight}></View>
         <SocialMediaButton onButtonPress={googleSignUp} text={TextStrings.continueWithGoogle} source={ImageStrings.googleLogo} />

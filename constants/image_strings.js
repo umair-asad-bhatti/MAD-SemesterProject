@@ -1,6 +1,6 @@
 const ImageStrings = {
 
-    mainLogo: require('../assets/images/main_logo.png'),
+    mainLogo: require('../assets/images/main_logo.jpeg'),
 
     googleLogo: require('../assets/images/google_logo.png'),
 

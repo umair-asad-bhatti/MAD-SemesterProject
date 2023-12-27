@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Image, Text, View, StyleSheet, Alert } from 'react-native'
+import {  FlatList, Image, Text, View, StyleSheet, Alert } from 'react-native'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 import RecipeCard from "../../components/recipe_card/recipe_card";
 import CategoryCircularCard from '../../components/category_circular_card/category_circular_card'
@@ -8,6 +8,7 @@ import { Sizes } from '../../constants/sizes'
 import { TypeScale } from '../../constants/type_scale'
 import { ImageStrings } from "../../constants/image_strings";
 import { supabase } from '../../services/supabase/client'
+import Loading from "../../components/loading/Loading";
 
 export default function HomeScreen() {
     const [categories, setCategories] = useState([])
@@ -85,7 +86,8 @@ export default function HomeScreen() {
                                 return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
                             }}
                         /> :
-                        <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
+                        <Loading size={Sizes.screenIndicatorSize} color={Colors.accentColor}/>
+                        // <ActivityIndicator size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
                 }
             </View>
         </View >

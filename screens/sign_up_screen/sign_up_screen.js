@@ -155,11 +155,9 @@ const SignUpScreen = ({ navigation }) => {
           onChangeText={(text) => setConfirmPassword(text)}
           keyboardAppearance="light"
         />
-        <TouchableOpacity onPressIn={handleSignUp} disabled={isSubmitting ? true : false} style={styles.button}>
-          <Text style={TypeScale.button}>{!isSubmitting ? TextStrings.signUp : 'Loading'}</Text>
-        </TouchableOpacity>
+        <Button text={!isSubmitting ? TextStrings.signUp : 'Loading'} disabled={isSubmitting ? true : false} onButtonPress={handleSignUp}/>
         <View style={styles.formHeight}></View>
-        <SocialMediaButton
+        <SociaclMediaButton
           onButtonPress={googleSignUp}
           text={TextStrings.continueWithGoogle}
           source={ImageStrings.googleLogo}

@@ -11,6 +11,7 @@ import { UserContext } from '../../services/context/usercontext'
 import { supabase } from '../../services/supabase/client'
 import { useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Loading from "../../components/loading/Loading";
 
 const image_size = 300
 const heart_size = 60
@@ -25,11 +26,11 @@ export default function RecipeDetailScreen({ route }) {
   const { session, setSession } = useContext(UserContext)
   const [clicked, setClicked] = useState(false)
   const [likes, setLikes] = useState(0) //get the current like status of recipe
-  const [MealDetails, setMealDetails] = useState({}) //store the data from api
+  const [MealDetails, setMealDetails] = useState({}) //store the data from supabase
 
   const [isSaved, setIsSaved] = useState(false);
 
-  //parsed data from api
+  //parsed data from supabase database
   const [data, setData] = useState({
     mealImg: null, mealName: null, mealDescription: null, mealArea: null, mealCategory: null, youtuebId: null, ingredients: [],
   });
@@ -44,10 +45,7 @@ export default function RecipeDetailScreen({ route }) {
     const getMealDetails = async () => {
 
       const { data } = await supabase.from('Recipes').select().eq('idMeal', itemId)
-      console.log(data);
-      // const data = await getData(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${itemId}`)
       setMealDetails(data[0])
-
     }
     const getCocktailDetails = async () => {
 
@@ -73,7 +71,6 @@ export default function RecipeDetailScreen({ route }) {
         ingredients: getIngredientsList(MealDetails),
       })
     }
-
     else if (category == 'drink') {
       setData({
         mealName: MealDetails.strDrink,
@@ -84,8 +81,6 @@ export default function RecipeDetailScreen({ route }) {
         ingredients: getIngredientsList(MealDetails),
       })
     }
-
-
   }, [MealDetails])
 
 
@@ -114,7 +109,7 @@ export default function RecipeDetailScreen({ route }) {
     }
     const getLikes = async () => {
 
-      const { data } = await supabase.from("Recipes_Liked").select('likes').eq('Recipe_id', 53031)
+      const { data } = await supabase.from("Recipes_Liked").select('likes').eq('Recipe_id', itemId)
       if (data.length > 0)
         setLikes(data[0].likes)
       else
@@ -277,11 +272,12 @@ export default function RecipeDetailScreen({ route }) {
           <Text style={{ marginTop: 10, color: Colors.lightColor, fontWeight: 'bold', fontSize: Sizes.h4Headline }}>Ingredients:</Text>
           <Text style={{ color: Colors.lightColor }}>{data.ingredients.join('\n')}</Text>
           <Text style={{ marginTop: 10, color: Colors.lightColor, fontWeight: 'bold', fontSize: Sizes.h4Headline }}>Description:</Text>
-          <Text style={{ color: Colors.lightColor }}>{data.mealDescription}</Text>
+          <Text style={{ color: Colors.lightColor,marginBottom:20 }}>{data.mealDescription}</Text>
         </ScrollView>
 
       </View >
     </>
-  ) : <ActivityIndicator style={{ marginTop: '50%' }} size={Sizes.screenIndicatorSize} color={Colors.accentColor} />
+  ) : <Loading size={Sizes.screenIndicatorSize} color={Colors.accentColor}/>
+
 
 }
