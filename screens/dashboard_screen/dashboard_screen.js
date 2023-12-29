@@ -34,17 +34,17 @@ const DashboardScreen = () => {
                     ),
                 }}
             />
-            <Tab.Screen
-                name="DrinkScreen"
-                component={DrinkScreen}
-                options={{
-                    tabBarColor: 'red',
-                    tabBarLabel: 'Drink',
-                    tabBarIcon: ({ focused, color }) => (
-                        <FontAwesome5 name="wine-bottle" color={focused ? 'black' : color} size={Sizes.icon_size} />
-                    ),
-                }}
-            />
+            {/*<Tab.Screen*/}
+            {/*    name="DrinkScreen"*/}
+            {/*    component={DrinkScreen}*/}
+            {/*    options={{*/}
+            {/*        tabBarColor: 'red',*/}
+            {/*        tabBarLabel: 'Drink',*/}
+            {/*        tabBarIcon: ({ focused, color }) => (*/}
+            {/*            <FontAwesome5 name="wine-bottle" color={focused ? 'black' : color} size={Sizes.icon_size} />*/}
+            {/*        ),*/}
+            {/*    }}*/}
+            {/*/>*/}
             <Tab.Screen
                 name="SearchScreen"
                 component={SearchScreen}

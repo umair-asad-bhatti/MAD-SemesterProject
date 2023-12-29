@@ -21,7 +21,7 @@ const youtubeicon_size = 25
 const youtubeicon_color = Colors.accentColor
 export default function RecipeDetailScreen({ route }) {
   const log = logger.createLogger();
-  const { itemId, category } = route.params
+  const { itemId } = route.params
   const navigation = useNavigation()
   //---------------states--------------------------------------------
   const { session, setSession } = useContext(UserContext)
@@ -49,40 +49,20 @@ export default function RecipeDetailScreen({ route }) {
       log.debug(data)
       setMealDetails(data[0])
     }
-    const getCocktailDetails = async () => {
-
-      const data = await getData(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${itemId}`)
-      setMealDetails(data.drinks[0])
-    }
-    if (category == 'meals')
       getMealDetails()
-    else if (category == 'drink')
-      getCocktailDetails()
-  }, [category])
+  }, [])
 
   //parsing data once it is fetched from api
   useEffect(() => {
-    if (category == 'meals') {
-      setData({
-        mealName: MealDetails.strMeal,
-        mealImg: MealDetails.strMealThumb,
-        mealArea: MealDetails.strArea,
-        mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory,
-        youtuebId: MealDetails.strYoutube,
-        ingredients: getIngredientsList(MealDetails),
-      })
-    }
-    else if (category == 'drink') {
-      setData({
-        mealName: MealDetails.strDrink,
-        mealImg: MealDetails.strDrinkThumb,
-        mealArea: MealDetails.strGlass,
-        mealDescription: MealDetails.strInstructions,
-        mealCategory: MealDetails.strCategory,
-        ingredients: getIngredientsList(MealDetails),
-      })
-    }
+    setData({
+      mealName: MealDetails.strMeal,
+      mealImg: MealDetails.strMealThumb,
+      mealArea: MealDetails.strArea,
+      mealDescription: MealDetails.strInstructions,
+      mealCategory: MealDetails.strCategory,
+      youtuebId: MealDetails.strYoutube,
+      ingredients: getIngredientsList(MealDetails),
+    })
   }, [MealDetails])
 
 
@@ -175,7 +155,7 @@ export default function RecipeDetailScreen({ route }) {
           await supabase.from('Recipes_Liked').insert({ Recipe_id: itemId, likes: 1 })
         }
 
-        //HANDLE THE STATE OF CLIKED 
+        //HANDLE THE STATE OF CLICKED
         if (clicked == false) {
           await AsyncStorage.setItem(`ClickStateOf${itemId}`, 'clicked')
           setClicked(true)
@@ -224,7 +204,7 @@ export default function RecipeDetailScreen({ route }) {
         }
       } else {
         // Add the recipe to saved recipes
-        updatedRecipes.push({ data, itemId, category });
+        updatedRecipes.push({ data, itemId });
       }
 
       await AsyncStorage.setItem('savedRecipes', JSON.stringify(updatedRecipes));

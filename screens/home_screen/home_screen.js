@@ -82,8 +82,8 @@ export default function HomeScreen() {
                                 const itemName = item.strMeal
                                 const itemImg = item.strMealThumb
                                 const itemId = item.idMeal
-                                const category = 'meals'
-                                return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} category={category} /></View>
+
+                                return <View style={{ margin: 5 }}><RecipeCard index={index} itemName={itemName} itemImg={itemImg} itemId={itemId} /></View>
                             }}
                         /> :
                         <Loading size={Sizes.screenIndicatorSize} color={Colors.accentColor}/>

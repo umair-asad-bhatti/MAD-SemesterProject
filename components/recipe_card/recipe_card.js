@@ -3,13 +3,13 @@ import React from 'react'
 import { Sizes } from '../../constants/sizes'
 import { useNavigation } from '@react-navigation/native'
 import { Dimensions } from 'react-native'
-export default function RecipeCard({ itemName, itemImg, itemId, category }) {
+export default function RecipeCard({ itemName, itemImg, itemId }) {
 
   const navigation = useNavigation()
   const windowWidth = Dimensions.get('window').width;
 
   return <>
-    <TouchableOpacity onPress={() => navigation.navigate("RecipeDetailScreen", { itemId, category })} style={{
+    <TouchableOpacity onPress={() => navigation.navigate("RecipeDetailScreen", { itemId })} style={{
       flex: 1, width: windowWidth / 2 - 20, shadowColor: "#000", height: 200, backgroundColor: 'white',
       borderRadius: 20,
       shadowOffset: {

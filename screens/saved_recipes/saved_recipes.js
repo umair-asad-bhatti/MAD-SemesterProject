@@ -52,7 +52,7 @@ export default function SavedRecipes({ navigation }) {
               const itemId = item.itemId
               const ingredients = item.data.ingredients
               const itemDescription = item.data.mealDescription
-              const category = item.category
+
 
               return <Accordian unsaveRecipe={unsaveRecipe} id={itemId} title={itemName} image={itemImg} description={itemDescription} ingredients={ingredients} />
 
